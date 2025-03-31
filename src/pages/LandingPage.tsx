@@ -1,17 +1,17 @@
-"use client";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import AppSideBar from "./components/AppSideBar";
+import { Divide } from "lucide-react";
+import { SidebarProvider } from "@/components/ui/sidebar";
+
+// Landing Page without signin
 export function LandingPageOnSignIn() {
   return (
     <>
@@ -62,5 +62,13 @@ export function LandingPageOnSignIn() {
         </div>
       </div>
     </>
+  );
+}
+
+export function NotionMainPage() {
+  return (
+    <SidebarProvider>
+      <AppSideBar />
+    </SidebarProvider>
   );
 }

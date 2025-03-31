@@ -1,4 +1,4 @@
-import { LandingPageOnSignIn } from "@/pages/LandingPage";
+import { LandingPageOnSignIn, NotionMainPage } from "@/pages/LandingPage";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Page() {
@@ -7,7 +7,9 @@ export default function Page() {
       <SignedOut>
         <LandingPageOnSignIn />
       </SignedOut>
-      <SignedIn>Hii there HomePage here</SignedIn>
+      <SignedIn>
+        <NotionMainPage />
+      </SignedIn>
     </>
   );
 }
