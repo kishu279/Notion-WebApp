@@ -19,9 +19,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-
 import {
   AudioWaveform,
+  BadgePlus,
   ChevronRight,
   Command,
   Frame,
@@ -29,6 +29,21 @@ import {
   Map,
   PieChart,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 const data = {
   user: {
@@ -178,7 +193,6 @@ const data = {
 
 export default function AppSideBar() {
   // upon successfull connection fetch the use Detaails
-
   return (
     <>
       <Sidebar collapsible="icon">
@@ -205,38 +219,152 @@ function Pages({
     }[];
   }[];
 }) {
+  const [addPages, setAddPages] = useState(false);
+
+  useEffect(() => {
+    setAddPages(true);
+  }, []);
+
   return (
     <>
       <SidebarGroup>
         <SidebarGroupLabel>Pages</SidebarGroupLabel>
+
         <SidebarMenu>
-          {items.map((item) => (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    {item.items?.map((subitem) => (
-                      <SidebarMenuSubItem key={subitem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <a href={subitem.url}>
-                            <span>{subitem.title}</span>
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
-          ))}
+          <Collapsible
+            asChild
+            defaultOpen={items[0].isActive}
+            className="group/collapsible"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={items[0].title}>
+                  <p
+                    className=" text-ellipsis overflow-hidden
+                   whitespace-nowrap
+                   "
+                  >
+                    {/* {items[0].title} */}
+                    The longest word in any of the major
+                  </p>
+
+                  {/* create pages */}
+
+                  <div className="flex items-center">
+                    {addPages && <AlertDialogDemo />}
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
+                  </div>
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {items[0].items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton asChild>
+                        <a href={subItem.url}>
+                          <span>{subItem.title}</span>
+                        </a>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
         </SidebarMenu>
+
+        {/* Favourite Pages */}
+        <SidebarMenu>
+          <Collapsible
+            asChild
+            defaultOpen={items[1].isActive}
+            className="group/collapsible"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={items[1].title}>
+                  <p
+                    className=" text-ellipsis overflow-hidden
+                   whitespace-nowrap
+                   "
+                  >
+                    {items[0].title}
+                  </p>
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {items[1].items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton asChild>
+                        <a href={subItem.url}>
+                          <span>{subItem.title}</span>
+                        </a>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarMenu>
+
+        {/* Settings */}
       </SidebarGroup>
     </>
+  );
+}
+
+export function AlertDialogDemo() {
+  const [pageName, setPageName] = useState<string>("");
+  // const { user } = useUser();
+
+  async function handleSubmit() {
+    console.log("clicked");
+
+    if (pageName.length === 0) {
+      console.error("input field should not be empty");
+      return;
+    }
+
+    // send the request to the backend
+    try {
+      const response = await axios.post("/api/create", {
+        pageName: pageName,
+      });
+
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setPageName("");
+    }
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <BadgePlus size={20} className="ml-2" />
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Enter the name of the page</AlertDialogTitle>
+          <AlertDialogDescription>
+            <Input
+              placeholder="Name..."
+              value={pageName}
+              onChange={(e) => {
+                setPageName(e.target.value);
+              }}
+            />
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
