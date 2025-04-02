@@ -18,6 +18,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import {
   AudioWaveform,
@@ -42,7 +43,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 
 const data = {
@@ -193,6 +193,10 @@ const data = {
 
 export default function AppSideBar() {
   // upon successfull connection fetch the use Detaails
+
+  // fetch details from the user
+  useEffect(() => {}, []);
+
   return (
     <>
       <Sidebar collapsible="icon">
@@ -206,15 +210,14 @@ export default function AppSideBar() {
   );
 }
 
-function Pages({
+export function Pages({
   items,
 }: {
   items: {
-    title: string;
     url: string;
-    isActive?: boolean;
     items?: {
       title: string;
+      content: string;
       url: string;
     }[];
   }[];
@@ -231,26 +234,19 @@ function Pages({
         <SidebarGroupLabel>Pages</SidebarGroupLabel>
 
         <SidebarMenu>
-          <Collapsible
-            asChild
-            defaultOpen={items[0].isActive}
-            className="group/collapsible"
-          >
+          <Collapsible asChild defaultOpen={true} className="group/collapsible">
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={items[0].title}>
-                  <p
-                    className=" text-ellipsis overflow-hidden
-                   whitespace-nowrap
-                   "
-                  >
+                <SidebarMenuButton
+                  tooltip={"Private Pages"}
+                  className="flex justify-between"
+                >
+                  <p>
                     {/* {items[0].title} */}
-                    The longest word in any of the major
+                    Private Pages
                   </p>
-
                   {/* create pages */}
-
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-3">
                     {addPages && <AlertDialogDemo />}
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
                   </div>
@@ -262,7 +258,9 @@ function Pages({
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <a href={subItem.url}>
-                          <span>{subItem.title}</span>
+                          <span className="overflow-hidden text-ellipsis">
+                            {subItem.title}
+                          </span>
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
@@ -277,20 +275,21 @@ function Pages({
         <SidebarMenu>
           <Collapsible
             asChild
-            defaultOpen={items[1].isActive}
+            defaultOpen={false}
             className="group/collapsible"
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={items[1].title}>
-                  <p
-                    className=" text-ellipsis overflow-hidden
-                   whitespace-nowrap
-                   "
-                  >
-                    {items[0].title}
+                <SidebarMenuButton
+                  tooltip={"Favourite Pages"}
+                  className="flex justify-between"
+                >
+                  <p className=" text-ellipsis overflow-hidden whitespace-nowrap">
+                    Favourite Pages
                   </p>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <div>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </div>
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -299,7 +298,9 @@ function Pages({
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <a href={subItem.url}>
-                          <span>{subItem.title}</span>
+                          <span className="overflow-hidden text-ellipsis">
+                            {subItem.title}
+                          </span>
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
