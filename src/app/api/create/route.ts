@@ -15,9 +15,11 @@ export async function POST(req: Request) {
     });
 
     if (!userFound) {
-      var newUser = await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: { name: userName, email: userEmail },
       });
+
+      console.log("New User: ", newUser);
     }
 
     const { pageName }: { pageName: string } = await req.json();
@@ -26,7 +28,7 @@ export async function POST(req: Request) {
       data: {
         title: pageName,
         content: "Here is the Content",
-        uid: userFound?.uid,
+        email: userFound?.email,
       },
     });
 

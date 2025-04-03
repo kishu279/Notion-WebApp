@@ -28,6 +28,6 @@ model Pages {
   content   String        
   private   Boolean       @default(false)
 
-  uid       String        
-  user      User          @relation(fields: [uid], references: [uid])
+  email       String        
+  user      User          @relation(fields: [email], references: [email])
 }

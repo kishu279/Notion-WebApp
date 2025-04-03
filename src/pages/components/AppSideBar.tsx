@@ -44,6 +44,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import pagesListSingletonModule from "@/lib/utils";
+import type { UserData } from "@/lib/utils";
 
 const data = {
   user: {
@@ -193,16 +195,40 @@ const data = {
 
 export default function AppSideBar() {
   // upon successfull connection fetch the use Detaails
+  const userData = pagesListSingletonModule.getInstance();
+  const [loading, setLoading] = useState(false);
 
-  // fetch details from the user
-  useEffect(() => {}, []);
+  // fetch the data
+  async function getData() {
+    setLoading(true);
+    try {
+      const response = await axios.get("/api/pages-created", {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = response.data.response;
+      userData.setPrivateField(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <>
       <Sidebar collapsible="icon">
         <SidebarHeader>Header Content</SidebarHeader>
         <SidebarContent>
-          <Pages items={data.navMain} />
+          <Pages items={userData.getPrivateField().items} />
         </SidebarContent>
         <SidebarFooter>Footer Content</SidebarFooter>
       </Sidebar>
@@ -210,18 +236,7 @@ export default function AppSideBar() {
   );
 }
 
-export function Pages({
-  items,
-}: {
-  items: {
-    url: string;
-    items?: {
-      title: string;
-      content: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function Pages({ items }: UserData) {
   const [addPages, setAddPages] = useState(false);
 
   useEffect(() => {
@@ -255,7 +270,7 @@ export function Pages({
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {items[0].items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
+                    <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
                         <a href={subItem.url}>
                           <span className="overflow-hidden text-ellipsis">
@@ -295,7 +310,7 @@ export function Pages({
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {items[1].items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
+                    <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
                         <a href={subItem.url}>
                           <span className="overflow-hidden text-ellipsis">
@@ -311,6 +326,19 @@ export function Pages({
           </Collapsible>
         </SidebarMenu>
 
+        {/* <button
+          onClick={async () => {
+            const response = await axios.get(
+              "/api/pages-created?",
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            console.log(response.data.response);
+          }}
+        >
+          send
+        </button> */}
         {/* Settings */}
       </SidebarGroup>
     </>

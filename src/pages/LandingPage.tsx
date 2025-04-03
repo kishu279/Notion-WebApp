@@ -8,7 +8,6 @@ import {
 
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import AppSideBar from "./components/AppSideBar";
-import { Divide } from "lucide-react";
 import {
   SidebarInset,
   SidebarProvider,
@@ -22,7 +21,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Textarea } from "@/components/ui/textarea";
+import MainTextArea from "./components/MainTextArea";
 
 // Landing Page without signin
 export function LandingPageOnSignIn() {
@@ -95,7 +94,10 @@ export function NotionMainPage() {
           </div>
         </header>
 
-        <div>{/* content */}</div>
+        <div>
+          {/* content */}
+          {/* <MainTextArea /> */}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

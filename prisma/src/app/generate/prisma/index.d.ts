@@ -2049,7 +2049,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     private: boolean | null
-    uid: string | null
+    email: string | null
   }
 
   export type PagesMaxAggregateOutputType = {
@@ -2057,7 +2057,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     private: boolean | null
-    uid: string | null
+    email: string | null
   }
 
   export type PagesCountAggregateOutputType = {
@@ -2065,7 +2065,7 @@ export namespace Prisma {
     title: number
     content: number
     private: number
-    uid: number
+    email: number
     _all: number
   }
 
@@ -2075,7 +2075,7 @@ export namespace Prisma {
     title?: true
     content?: true
     private?: true
-    uid?: true
+    email?: true
   }
 
   export type PagesMaxAggregateInputType = {
@@ -2083,7 +2083,7 @@ export namespace Prisma {
     title?: true
     content?: true
     private?: true
-    uid?: true
+    email?: true
   }
 
   export type PagesCountAggregateInputType = {
@@ -2091,7 +2091,7 @@ export namespace Prisma {
     title?: true
     content?: true
     private?: true
-    uid?: true
+    email?: true
     _all?: true
   }
 
@@ -2172,7 +2172,7 @@ export namespace Prisma {
     title: string
     content: string
     private: boolean
-    uid: string
+    email: string
     _count: PagesCountAggregateOutputType | null
     _min: PagesMinAggregateOutputType | null
     _max: PagesMaxAggregateOutputType | null
@@ -2197,7 +2197,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     private?: boolean
-    uid?: boolean
+    email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
@@ -2206,7 +2206,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     private?: boolean
-    uid?: boolean
+    email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
@@ -2215,7 +2215,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     private?: boolean
-    uid?: boolean
+    email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
@@ -2224,10 +2224,10 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     private?: boolean
-    uid?: boolean
+    email?: boolean
   }
 
-  export type PagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"pid" | "title" | "content" | "private" | "uid", ExtArgs["result"]["pages"]>
+  export type PagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"pid" | "title" | "content" | "private" | "email", ExtArgs["result"]["pages"]>
   export type PagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2248,7 +2248,7 @@ export namespace Prisma {
       title: string
       content: string
       private: boolean
-      uid: string
+      email: string
     }, ExtArgs["result"]["pages"]>
     composites: {}
   }
@@ -2677,7 +2677,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Pages", 'String'>
     readonly content: FieldRef<"Pages", 'String'>
     readonly private: FieldRef<"Pages", 'Boolean'>
-    readonly uid: FieldRef<"Pages", 'String'>
+    readonly email: FieldRef<"Pages", 'String'>
   }
     
 
@@ -3120,7 +3120,7 @@ export namespace Prisma {
     title: 'title',
     content: 'content',
     private: 'private',
-    uid: 'uid'
+    email: 'email'
   };
 
   export type PagesScalarFieldEnum = (typeof PagesScalarFieldEnum)[keyof typeof PagesScalarFieldEnum]
@@ -3238,7 +3238,7 @@ export namespace Prisma {
     title?: StringFilter<"Pages"> | string
     content?: StringFilter<"Pages"> | string
     private?: BoolFilter<"Pages"> | boolean
-    uid?: StringFilter<"Pages"> | string
+    email?: StringFilter<"Pages"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -3247,7 +3247,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     private?: SortOrder
-    uid?: SortOrder
+    email?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -3259,7 +3259,7 @@ export namespace Prisma {
     title?: StringFilter<"Pages"> | string
     content?: StringFilter<"Pages"> | string
     private?: BoolFilter<"Pages"> | boolean
-    uid?: StringFilter<"Pages"> | string
+    email?: StringFilter<"Pages"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "pid">
 
@@ -3268,7 +3268,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     private?: SortOrder
-    uid?: SortOrder
+    email?: SortOrder
     _count?: PagesCountOrderByAggregateInput
     _max?: PagesMaxOrderByAggregateInput
     _min?: PagesMinOrderByAggregateInput
@@ -3282,7 +3282,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Pages"> | string
     content?: StringWithAggregatesFilter<"Pages"> | string
     private?: BoolWithAggregatesFilter<"Pages"> | boolean
-    uid?: StringWithAggregatesFilter<"Pages"> | string
+    email?: StringWithAggregatesFilter<"Pages"> | string
   }
 
   export type UserCreateInput = {
@@ -3344,7 +3344,7 @@ export namespace Prisma {
     title: string
     content: string
     private?: boolean
-    uid: string
+    email: string
   }
 
   export type PagesUpdateInput = {
@@ -3360,7 +3360,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     private?: BoolFieldUpdateOperationsInput | boolean
-    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
   }
 
   export type PagesCreateManyInput = {
@@ -3368,7 +3368,7 @@ export namespace Prisma {
     title: string
     content: string
     private?: boolean
-    uid: string
+    email: string
   }
 
   export type PagesUpdateManyMutationInput = {
@@ -3383,7 +3383,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     private?: BoolFieldUpdateOperationsInput | boolean
-    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3462,7 +3462,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     private?: SortOrder
-    uid?: SortOrder
+    email?: SortOrder
   }
 
   export type PagesMaxOrderByAggregateInput = {
@@ -3470,7 +3470,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     private?: SortOrder
-    uid?: SortOrder
+    email?: SortOrder
   }
 
   export type PagesMinOrderByAggregateInput = {
@@ -3478,7 +3478,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     private?: SortOrder
-    uid?: SortOrder
+    email?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -3656,7 +3656,7 @@ export namespace Prisma {
     title?: StringFilter<"Pages"> | string
     content?: StringFilter<"Pages"> | string
     private?: BoolFilter<"Pages"> | boolean
-    uid?: StringFilter<"Pages"> | string
+    email?: StringFilter<"Pages"> | string
   }
 
   export type UserCreateWithoutPagesInput = {

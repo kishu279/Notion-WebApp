@@ -128,7 +128,7 @@ exports.Prisma.PagesScalarFieldEnum = {
   title: 'title',
   content: 'content',
   private: 'private',
-  uid: 'uid'
+  email: 'email'
 };
 
 exports.Prisma.SortOrder = {
