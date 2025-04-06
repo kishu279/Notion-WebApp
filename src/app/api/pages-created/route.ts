@@ -1,9 +1,9 @@
 import prisma from "@/config/prisma";
 import { UserData } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs/server";
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+// Get the Pages details
+export async function GET() {
   // const url = new URL(req.url);
   const user = await currentUser();
   const userEmail = user?.emailAddresses[0].emailAddress;

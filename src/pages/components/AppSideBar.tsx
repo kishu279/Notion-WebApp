@@ -18,18 +18,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  AudioWaveform,
-  BadgePlus,
-  ChevronRight,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-} from "lucide-react";
+import { BadgePlus, ChevronRight } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -46,161 +36,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import pagesListSingletonModule from "@/lib/utils";
 import type { UserData } from "@/lib/utils";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    // {
-    //   title: "Playground",
-    //   url: "#",
-    //   icon: SquareTerminal,
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       title: "History",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Starred",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Settings",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Models",
-    //   url: "#",
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: "Genesis",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Explorer",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Quantum",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    {
-      title: "Private Pages",
-      url: "#",
-      isActive: true,
-      items: [
-        { title: "1st Page", url: "23ojnsfd" },
-        { title: "2nd Page", url: "312iojba" },
-      ],
-    },
-    {
-      title: "Favourite Pages",
-      url: "#",
-      items: [
-        { title: "1st Page", url: "aawdasedas" },
-        { title: "2nd Page", url: "aodho23" },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+import Link from "next/link";
 
 export default function AppSideBar() {
   // upon successfull connection fetch the use Detaails
   const userData = pagesListSingletonModule.getInstance();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // fetch the data
   async function getData() {
-    setLoading(true);
     try {
       const response = await axios.get("/api/pages-created", {
         headers: { "Content-Type": "application/json" },
@@ -219,13 +63,9 @@ export default function AppSideBar() {
     getData();
   }, []);
 
-  if (loading) {
-    return <div>Loading ...</div>;
-  }
-
   return (
     <>
-      <Sidebar collapsible="icon">
+      <Sidebar collapsible="icon" className={loading ? "blur" : "bg-amber-300"}>
         <SidebarHeader>Header Content</SidebarHeader>
         <SidebarContent>
           <Pages items={userData.getPrivateField().items} />
@@ -272,11 +112,11 @@ export function Pages({ items }: UserData) {
                   {items[0].items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link href={`/notion/${subItem.url}`}>
                           <span className="overflow-hidden text-ellipsis">
                             {subItem.title}
                           </span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
@@ -312,11 +152,11 @@ export function Pages({ items }: UserData) {
                   {items[1].items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link href={`/notion/${subItem.url}`}>
                           <span className="overflow-hidden text-ellipsis">
                             {subItem.title}
                           </span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
@@ -326,19 +166,6 @@ export function Pages({ items }: UserData) {
           </Collapsible>
         </SidebarMenu>
 
-        {/* <button
-          onClick={async () => {
-            const response = await axios.get(
-              "/api/pages-created?",
-              {
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-            console.log(response.data.response);
-          }}
-        >
-          send
-        </button> */}
         {/* Settings */}
       </SidebarGroup>
     </>
@@ -363,7 +190,11 @@ export function AlertDialogDemo() {
         pageName: pageName,
       });
 
-      console.log(response.data);
+      if (response.status) {
+        console.log("success");
+      } else {
+        console.error("ERR");
+      }
     } catch (err) {
       console.error(err);
     } finally {

@@ -1,6 +1,7 @@
 import prisma from "@/config/prisma";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
+// Page Creation
 export async function POST(req: Request) {
   // protected the route
   // await auth.protect();
@@ -24,11 +25,12 @@ export async function POST(req: Request) {
 
     const { pageName }: { pageName: string } = await req.json();
 
-    const newPage = await prisma.pages.create({
+    await prisma.pages.create({
       data: {
         title: pageName,
         content: "Here is the Content",
         email: userFound?.email,
+        private: true,
       },
     });
 

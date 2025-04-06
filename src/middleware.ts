@@ -2,9 +2,7 @@ import {
   clerkMiddleware,
   ClerkMiddlewareAuth,
   createRouteMatcher,
-  currentUser,
 } from "@clerk/nextjs/server";
-import { NextRequest, NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher(["/api/create(.*)"]);
 

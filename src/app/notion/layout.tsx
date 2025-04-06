@@ -1,0 +1,35 @@
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import AppSideBar from "@/pages/components/AppSideBar";
+import { Separator } from "@radix-ui/react-separator";
+
+export default function NotionLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <SidebarProvider>
+        <AppSideBar />
+        <SidebarInset>
+          <header className="border-4 flex h-16 shrink-0 items-center gap-2 transition-[width, height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+            <div
+              className="flex gap-2 items-center px-4
+            "
+            >
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mr-2 h-4 " />
+              {/* Breadcrunmbs */}
+              URL
+            </div>
+          </header>
+          <div className="w-[1400px] h-[700px] ml-5 mt-5">{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </>
+  );
+}

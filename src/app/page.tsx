@@ -1,15 +1,22 @@
-import { LandingPageOnSignIn, NotionMainPage } from "@/pages/LandingPage";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { LandingPageOnSignIn } from "@/pages/LandingPage";
+import { SignedOut } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Page() {
+import { redirect } from "next/navigation";
+
+export default async function Page() {
+  const { userId } = await auth();
+
+  if (userId) {
+    // revalidatePath("/notion");
+    redirect("/notion");
+  }
+
   return (
     <>
       <SignedOut>
         <LandingPageOnSignIn />
       </SignedOut>
-      <SignedIn>
-        <NotionMainPage />
-      </SignedIn>
     </>
   );
 }

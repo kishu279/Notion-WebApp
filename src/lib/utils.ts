@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-import { stringify } from "querystring";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,6 +13,7 @@ const pagesListSingleton = (() => {
   let instance: {
     getPrivateField: () => UserData;
     setPrivateField: (data: UserData) => void;
+    fetchFromPrivateField: (url: string) => Promise<string>;
   } | null = null;
 
   return {
@@ -45,6 +45,12 @@ const pagesListSingleton = (() => {
 
             _privateField.items[0].items = data.items[0].items;
             _privateField.items[1].items = data.items[1].items;
+          },
+
+          fetchFromPrivateField: async (url) => {
+            const response = url + "data";
+
+            return response;
           },
         };
       }

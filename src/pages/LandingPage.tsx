@@ -7,21 +7,6 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import AppSideBar from "./components/AppSideBar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import MainTextArea from "./components/MainTextArea";
 
 // Landing Page without signin
 export function LandingPageOnSignIn() {
@@ -30,7 +15,9 @@ export function LandingPageOnSignIn() {
       <div>
         {/* Upper Box */}
         <div className="flex  place-items-center h-[80px]">
-          <p className="ml-[40px] text-[24px] font-bold">Notion</p>
+          <p className="ml-[40px] text-[26px] font-bold  font-serif select-none">
+            Notion
+          </p>
           {/* Navigation Flow */}
           <div className="ml-[30px] ">
             <NavigationMenu>
@@ -54,12 +41,12 @@ export function LandingPageOnSignIn() {
           </div>
           {/* SignUp Flow */}
           <div className="right-[100px] absolute gap-4 flex">
-            <button className="p-3 rounded-2xl hover:bg-gray-300">
+            <div className="p-3 rounded-2xl hover:bg-gray-300">
               <SignUpButton />
-            </button>
-            <button className="p-3 rounded-2xl hover:bg-gray-300">
+            </div>
+            <div className="p-3 rounded-2xl hover:bg-gray-300">
               <SignInButton />
-            </button>
+            </div>
           </div>
         </div>
 
@@ -74,31 +61,5 @@ export function LandingPageOnSignIn() {
         </div>
       </div>
     </>
-  );
-}
-
-export function NotionMainPage() {
-  return (
-    <SidebarProvider>
-      <AppSideBar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width, height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div
-            className="flex gap-2 items-center px-4
-          "
-          >
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4 " />
-
-            {/* Breadcrunmbs */}
-          </div>
-        </header>
-
-        <div>
-          {/* content */}
-          {/* <MainTextArea /> */}
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
   );
 }
