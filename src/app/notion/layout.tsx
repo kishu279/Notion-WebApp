@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/sidebar";
 import AppSideBar from "@/pages/components/AppSideBar";
 import { Separator } from "@radix-ui/react-separator";
+import { Toaster } from "sonner";
 
 export default function NotionLayout({
   children,
@@ -30,6 +31,7 @@ export default function NotionLayout({
           <div className="w-[1400px] h-[700px] ml-5 mt-5">{children}</div>
         </SidebarInset>
       </SidebarProvider>
+      <Toaster />
     </>
   );
 }

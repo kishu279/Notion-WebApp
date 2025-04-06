@@ -112,7 +112,7 @@ export function Pages({ items }: UserData) {
                   {items[0].items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
-                        <Link href={`/notion/${subItem.url}`}>
+                        <Link href={`/notion?pid=${subItem.url}`}>
                           <span className="overflow-hidden text-ellipsis">
                             {subItem.title}
                           </span>
@@ -152,7 +152,7 @@ export function Pages({ items }: UserData) {
                   {items[1].items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.url}>
                       <SidebarMenuSubButton asChild>
-                        <Link href={`/notion/${subItem.url}`}>
+                        <Link href={`/notion?pid=${subItem.url}`}>
                           <span className="overflow-hidden text-ellipsis">
                             {subItem.title}
                           </span>

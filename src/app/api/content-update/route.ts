@@ -1,5 +1,4 @@
 import prisma from "@/config/prisma";
-import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 
 // Update the Content in those Pages

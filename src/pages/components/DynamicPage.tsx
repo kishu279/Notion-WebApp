@@ -2,19 +2,41 @@
 
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-export default function NotionDynamicPage() {
+export default function NotionDynamicPage({ pid }: { pid: string }) {
   const [fetchData, setFetchData] = useState<string>("");
   const [text, setText] = useState<string>("");
-  const params = useParams<{ pageid: string }>();
-  const pageid = params?.pageid;
   const [, setLoading] = useState<boolean>(false);
 
   // send data
   async function setData() {
-    console.log("sending the request");
+    try {
+      const response = await axios.post(
+        "/api/content-update",
+        {
+          pageContent: text,
+        },
+        {
+          params: { pid: pid },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.status) {
+        toast("Error Occurred Refresh Again!!!");
+        throw new Error(response.data.message);
+      }
+
+      console.log(response.data.message);
+      toast("Updated Successfully");
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    }
   }
 
   async function getData() {
@@ -22,7 +44,7 @@ export default function NotionDynamicPage() {
     try {
       const response = await axios.get("/api/content-update", {
         params: {
-          pid: pageid,
+          pid: pid,
         },
         headers: {
           "Content-Type": "application/json",
@@ -36,29 +58,32 @@ export default function NotionDynamicPage() {
       }
 
       setFetchData(response.data?.data);
+      setText(response.data?.data);
     } catch (err) {
       console.error(err);
       throw new Error(err as string);
     } finally {
       setLoading(false);
-      console.log("Loaded Data: ", fetchData);
     }
   }
 
   // fetch the data
   useEffect(() => {
     getData();
-  }, []);
+  }, [, pid]);
 
   // useDebounce for delayed request
   useEffect(() => {
     const timer = setTimeout(() => {
-      // check for the data it contains
-      setData();
+      // check for the difference
+      if (text.length !== fetchData.length) {
+        console.log("sending the requyest");
+        setData();
+      }
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [text]);
+  }, [fetchData]);
 
   return (
     <>
@@ -67,7 +92,7 @@ export default function NotionDynamicPage() {
         placeholder="Text ..."
         value={fetchData}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-          setText(e.target.value);
+          setFetchData(e.target.value);
         }}
       />
     </>
