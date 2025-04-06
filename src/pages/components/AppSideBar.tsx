@@ -35,23 +35,28 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import pagesListSingletonModule from "@/lib/utils";
-import type { UserData } from "@/lib/utils";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function AppSideBar() {
   // upon successfull connection fetch the use Detaails
-  const userData = pagesListSingletonModule.getInstance();
+  // const userData = pagesListSingletonModule.getInstance();
+  const [pages, setPages] =
+    useState<{ name: string; items: { title: string; url: string }[] }[]>();
+
   const [loading, setLoading] = useState(true);
 
   // fetch the data
   async function getData() {
+    console.log("getting data");
     try {
       const response = await axios.get("/api/pages-created", {
         headers: { "Content-Type": "application/json" },
       });
 
-      const data = response.data.response;
-      userData.setPrivateField(data);
+      const fetchData = response.data.response;
+      // userData.setPrivateField(data);
+      setPages(fetchData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -68,7 +73,11 @@ export default function AppSideBar() {
       <Sidebar collapsible="icon" className={loading ? "blur" : "bg-amber-300"}>
         <SidebarHeader>Header Content</SidebarHeader>
         <SidebarContent>
-          <Pages items={userData.getPrivateField().items} />
+          {!pages ? (
+            <div className="p-4 text-gray-600">Loading...</div>
+          ) : (
+            <Pages items={pages.items} refreshFunction={getData} />
+          )}
         </SidebarContent>
         <SidebarFooter>Footer Content</SidebarFooter>
       </Sidebar>
@@ -76,13 +85,13 @@ export default function AppSideBar() {
   );
 }
 
-export function Pages({ items }: UserData) {
-  const [addPages, setAddPages] = useState(false);
-
-  useEffect(() => {
-    setAddPages(true);
-  }, []);
-
+export function Pages({
+  items,
+  refreshFunction,
+}: {
+  items: { name: string; items: { title: string; url: string }[] }[];
+  refreshFunction: () => void;
+}) {
   return (
     <>
       <SidebarGroup>
@@ -102,7 +111,7 @@ export function Pages({ items }: UserData) {
                   </p>
                   {/* create pages */}
                   <div className="flex items-center gap-3">
-                    {addPages && <AlertDialogDemo />}
+                    <AlertDialogDemo refreshFunction={refreshFunction} />
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
                   </div>
                 </SidebarMenuButton>
@@ -172,9 +181,12 @@ export function Pages({ items }: UserData) {
   );
 }
 
-export function AlertDialogDemo() {
+export function AlertDialogDemo({
+  refreshFunction,
+}: {
+  refreshFunction: () => void;
+}) {
   const [pageName, setPageName] = useState<string>("");
-  // const { user } = useUser();
 
   async function handleSubmit() {
     console.log("clicked");
@@ -190,11 +202,16 @@ export function AlertDialogDemo() {
         pageName: pageName,
       });
 
-      if (response.status) {
-        console.log("success");
-      } else {
+      if (!response.status) {
         console.error("ERR");
+        return;
       }
+
+      toast(response.data.message);
+
+      // we can also redirect it to the page which is currrently created
+      // router.push("/notion");
+      refreshFunction();
     } catch (err) {
       console.error(err);
     } finally {
