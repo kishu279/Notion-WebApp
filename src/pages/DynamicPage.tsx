@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export default function NotionDynamicPage({ pid }: { pid: string }) {
   const [fetchData, setFetchData] = useState<string>("");
   const [text, setText] = useState<string>("");
-  // const [, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // send data
   async function setData() {
@@ -17,7 +17,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
       const response = await axios.post(
         "/api/content-update",
         {
-          pageContent: text,
+          pageContent: fetchData,
         },
         {
           params: { pid: pid },
@@ -32,6 +32,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
         throw new Error(response.data.message);
       }
 
+      setText(fetchData);
       console.log(response.data.message);
       toast("Updated Successfully");
     } catch (err) {
@@ -42,7 +43,6 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
   }
 
   async function getData() {
-    // setLoading(true);
     try {
       const response = await axios.get("/api/content-update", {
         params: {
@@ -52,8 +52,6 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
           "Content-Type": "application/json",
         },
       });
-
-      console.log(response);
 
       if (!response.status) {
         throw new Error(response.data.message);
@@ -66,7 +64,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
       toast(err.response.data.message);
       redirect("/notion");
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   }
 
@@ -80,6 +78,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
     const timer = setTimeout(() => {
       // check for the difference
       if (text.length !== fetchData.length) {
+        setLoading(true);
         console.log("sending the requyest");
         setData();
       }
@@ -92,11 +91,12 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
     <>
       <Textarea
         className="w-3/3 h-3/3 "
-        placeholder="Text ..."
+        placeholder="Enter your cotentt here..."
         value={fetchData}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
           setFetchData(e.target.value);
         }}
+        disabled={loading}
       />
     </>
   );

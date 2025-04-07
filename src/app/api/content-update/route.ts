@@ -7,10 +7,17 @@ export async function POST(req: Request) {
   const { pageContent } = await req.json();
 
   try {
-    await prisma.pages.update({
+    const response = await prisma.pages.update({
       where: { pid: pid }, // update should be used with unique field
       data: { content: pageContent },
     });
+
+    if (!response) {
+      return new Response(
+        JSON.stringify({ message: "ERR OCCURRED", success: false }),
+        { status: 400 }
+      );
+    }
 
     return new Response(JSON.stringify({ message: "Updated", success: true }), {
       status: 200,
@@ -28,7 +35,6 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const pid = searchParams.get("pid") as string; // page id
 
-  console.log("getting request");
   try {
     const response = await prisma.pages.findUnique({ where: { pid: pid } });
 

@@ -1,12 +1,12 @@
-"use client";
+import NotionDynamicPage from "@/pages/DynamicPage";
+import NotionAdverPage from "@/pages/NotionAdverPage";
 
-import NotionDynamicPage from "@/pages/components/DynamicPage";
-import NotionAdverPage from "@/pages/components/NotionAdverPage";
-import { useSearchParams } from "next/navigation";
-
-export default function Page() {
-  const searchParams = useSearchParams();
-  const pid = searchParams?.get("pid");
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const { pid } = await searchParams;
 
   if (!pid) {
     return (

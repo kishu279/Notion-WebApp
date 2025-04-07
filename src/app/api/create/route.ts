@@ -7,8 +7,8 @@ export async function POST(req: Request) {
   // await auth.protect();
 
   const user = await currentUser();
-  const userEmail = user?.emailAddresses[0].emailAddress;
-  const userName = user?.fullName;
+  const userEmail: string = user?.emailAddresses[0].emailAddress as string;
+  const userName: string = user?.fullName as string;
 
   try {
     const userFound = await prisma.user.findUnique({
@@ -20,19 +20,31 @@ export async function POST(req: Request) {
         data: { name: userName, email: userEmail },
       });
 
-      console.log("New User: ", newUser);
+      if (!newUser) {
+        return new Response(
+          JSON.stringify({ message: "User Creation Failed", success: false }),
+          { status: 400 }
+        );
+      }
     }
 
     const { pageName }: { pageName: string } = await req.json();
 
-    await prisma.pages.create({
+    const response = await prisma.pages.create({
       data: {
         title: pageName,
-        content: "Here is the Content",
-        email: userFound?.email,
+        content: "",
+        email: userFound?.email as string,
         private: true,
       },
     });
+
+    if (!response) {
+      return new Response(
+        JSON.stringify({ message: "ERR OCCURRED", success: false }),
+        { status: 400 }
+      );
+    }
 
     return Response.json(
       {
