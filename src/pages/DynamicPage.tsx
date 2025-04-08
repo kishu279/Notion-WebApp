@@ -90,7 +90,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
   return (
     <>
       <Textarea
-        className="w-3/3 h-3/3 "
+        className="w-3/3 h-3/3 focus:outline-none"
         placeholder="Enter your cotentt here..."
         value={fetchData}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {

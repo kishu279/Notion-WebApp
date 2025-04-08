@@ -31,6 +31,7 @@ import {
   ChevronsUpDown,
   Command,
   CreditCard,
+  FileX,
   GalleryVerticalEnd,
   LogOut,
   Plus,
@@ -65,6 +66,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 interface UserDetails {
   name: string | undefined | null;
@@ -77,7 +84,6 @@ export default function AppSideBar() {
     useState<{ name: string; items: { title: string; url: string }[] }[]>();
   const [loading, setLoading] = useState(false); // spiner
   const { user } = useUser();
-  console.log(user);
 
   const userDetails: UserDetails = {
     name: user?.fullName,
@@ -119,7 +125,7 @@ export default function AppSideBar() {
   }
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     getData();
   }, []);
 
@@ -158,88 +164,147 @@ function Pages({
   items: { name: string; items: { title: string; url: string }[] }[];
   refreshFunction: () => void;
 }) {
+  const [selectPid, setSelectPid] = useState<string>("");
+
+  // Context Menu
+  const OnSelectDelete = () => {};
+
+  console.log("Selected PID : ", selectPid);
   return (
     <>
       <SidebarGroup>
         <SidebarGroupLabel>Pages</SidebarGroupLabel>
 
-        {/* Favourite Pages */}
-        <SidebarMenu>
-          <Collapsible
-            asChild
-            defaultOpen={false}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton
-                  tooltip={"Favourite Pages"}
-                  className="flex justify-between"
-                >
-                  <p className=" text-ellipsis overflow-hidden whitespace-nowrap">
-                    Favourite Pages
-                  </p>
-                  <div>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </div>
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {items[1].items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.url}>
-                      <SidebarMenuSubButton asChild>
-                        <Link href={`/notion?pid=${subItem.url}`}>
-                          <span className="overflow-hidden text-ellipsis">
-                            {subItem.title}
-                          </span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        </SidebarMenu>
+        <ContextMenu>
+          {/* Favourite Pages */}
 
-        <SidebarMenu>
-          <Collapsible asChild defaultOpen={true} className="group/collapsible">
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton
-                  tooltip={"Private Pages"}
-                  className="flex justify-between"
-                >
-                  <p>
-                    {/* {items[0].title} */}
-                    Private Pages
-                  </p>
-                  {/* create pages */}
-                  <div className="flex items-center gap-3">
-                    <AlertDialogDemo refreshFunction={refreshFunction} />
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
-                  </div>
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {items[0].items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.url}>
-                      <SidebarMenuSubButton asChild>
-                        <Link href={`/notion?pid=${subItem.url}`}>
-                          <span className="overflow-hidden text-ellipsis">
-                            {subItem.title}
-                          </span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        </SidebarMenu>
+          <ContextMenuTrigger>HII</ContextMenuTrigger>
+
+          <SidebarMenu>
+            <Collapsible
+              asChild
+              defaultOpen={false}
+              className="group/collapsible"
+            >
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton
+                    tooltip={"Favourite Pages"}
+                    className="flex justify-between"
+                  >
+                    <p className=" text-ellipsis overflow-hidden whitespace-nowrap">
+                      Favourite Pages
+                    </p>
+                    <div>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </div>
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ContextMenuTrigger>
+                    <SidebarMenuSub>
+                      {items[1].items?.map((subItem) => (
+                        <SidebarMenuSubItem
+                          key={subItem.url}
+                          onMouseDown={() => {
+                            setSelectPid(subItem.url);
+                          }}
+                        >
+                          <SidebarMenuSubButton asChild>
+                            <Link href={`/notion?pid=${subItem.url}`}>
+                              <span className="overflow-hidden text-ellipsis">
+                                {subItem.title}
+                              </span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </ContextMenuTrigger>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+
+          <SidebarMenu>
+            <Collapsible
+              asChild
+              defaultOpen={true}
+              className="group/collapsible"
+            >
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton
+                    tooltip={"Private Pages"}
+                    className="flex justify-between"
+                  >
+                    <p>
+                      {/* {items[0].title} */}
+                      Private Pages
+                    </p>
+                    {/* create pages */}
+                    <div className="flex items-center gap-3">
+                      <AlertDialogDemo refreshFunction={refreshFunction} />
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
+                    </div>
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ContextMenuTrigger>
+                    <SidebarMenuSub>
+                      {items[0].items?.map((subItem) => (
+                        <SidebarMenuSubItem
+                          key={subItem.url}
+                          onMouseDown={() => {
+                            setSelectPid(subItem.url);
+                          }}
+                        >
+                          <SidebarMenuSubButton asChild>
+                            <Link href={`/notion?pid=${subItem.url}`}>
+                              <span className="overflow-hidden text-ellipsis">
+                                {subItem.title}
+                              </span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </ContextMenuTrigger>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+
+          <ContextMenuContent>
+            <ContextMenuItem
+              className="display justify-between"
+              onClick={async () => {
+                // Submit the Delete Request
+                const response = await axios.get("/api/delete-pages", {
+                  params: {
+                    pid: selectPid,
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  },
+                });
+
+                if (!response.status) {
+                  throw new Error("Error in deleting the page");
+                }
+
+                toast(response.data.message);
+                // after deleting the page we will remove from the page
+                
+              }}
+            >
+              <p>Delete</p>
+              <FileX />
+            </ContextMenuItem>
+            <ContextMenuItem>Billing</ContextMenuItem>
+            <ContextMenuItem>Team</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
 
         {/* Settings */}
       </SidebarGroup>
