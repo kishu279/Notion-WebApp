@@ -1,13 +1,16 @@
 import { LandingPageOnSignIn } from "@/pages/LandingPage";
 import { SignedOut } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const { userId } = await auth();
+  const user = await currentUser();
 
-  if (userId) {
+  if (user) {
+    console.log("User : ", user);
+    // Storing the data in the User
+
     // revalidatePath("/notion");
     redirect("/notion");
   }

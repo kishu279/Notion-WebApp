@@ -78,7 +78,6 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
     const timer = setTimeout(() => {
       // check for the difference
       if (text.length !== fetchData.length) {
-        setLoading(true);
         console.log("sending the requyest");
         setData();
       }
@@ -91,7 +90,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
     <>
       <Textarea
         className="w-3/3 h-3/3 focus:outline-none"
-        placeholder="Enter your cotentt here..."
+        placeholder="Enter your cotent here..."
         value={fetchData}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
           setFetchData(e.target.value);
