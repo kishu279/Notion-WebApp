@@ -178,7 +178,6 @@ function Pages({
         <ContextMenu>
           {/* Favourite Pages */}
 
-          <ContextMenuTrigger>HII</ContextMenuTrigger>
 
           <SidebarMenu>
             <Collapsible

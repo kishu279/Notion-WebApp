@@ -1,7 +1,4 @@
-import { currentUser } from "@clerk/nextjs/server";
-
 export default async function NotionAdverPage() {
-  const user = await currentUser();
   // console.log("User : ", user);
   return (
     <>

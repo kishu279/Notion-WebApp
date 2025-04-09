@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+
 import "./globals.css";
+import ProvidersRedux from "@/store/providers";
 
 export const metadata: Metadata = {
   title: "Clerk Next.js Quickstart",
@@ -15,7 +17,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>{children}</body>
+        <body>
+          <ProvidersRedux>{children}</ProvidersRedux>
+        </body>
       </html>
     </ClerkProvider>
   );
