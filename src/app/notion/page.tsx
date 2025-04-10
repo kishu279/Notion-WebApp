@@ -6,7 +6,7 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { pid } = await searchParams;
+  const { pid } = searchParams;
 
   if (!pid) {
     return (
