@@ -11,16 +11,26 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
   const [text, setText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  // using app selector we will fetch
+  const ResponseUserData = {
+    cid: null,
+    pid: pid,
+    data: {
+      data: "Hii this side sourav Poddar",
+    },
+  };
+
   // send data
   async function setData() {
     try {
       const response = await axios.post(
         "/api/content-update",
         {
-          pageContent: fetchData,
+          cid: "ee675ec9-dcf6-4c4f-83f4-40ac3bf47f13",
+          pid: pid,
+          data: { content: fetchData, type: "text", order: 0 },
         },
         {
-          params: { pid: pid },
           headers: {
             "Content-Type": "application/json",
           },
@@ -38,34 +48,38 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
     } catch (err) {
       console.error(err);
       toast(err?.response.data.message);
+      setFetchData(text); // rollback it with previous message
       throw new Error(err?.response.data.message);
     }
   }
 
   async function getData() {
-    try {
-      const response = await axios.get("/api/content-update", {
-        params: {
-          pid: pid,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    // try {
+    //   const response = await axios.get("/api/content-update", {
+    //     params: {
+    //       pid: pid,
+    //     },
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
-      if (!response.status) {
-        throw new Error(response.data.message);
-      }
+    //   if (!response.status) {
+    //     throw new Error(response.data.message);
+    //   }
 
-      setFetchData(response.data?.data);
-      setText(response.data?.data);
-    } catch (err) {
-      console.error(err);
-      toast(err.response.data.message);
-      redirect("/notion");
-    } finally {
-      setLoading(false);
-    }
+    //   setFetchData(response.data?.data);
+    //   setText(response.data?.data);
+    // } catch (err) {
+    //   console.error(err);
+    //   toast(err.response.data.message);
+    //   redirect("/notion");
+    // } finally {
+    //   setLoading(false);
+    // }
+
+    setFetchData(ResponseUserData.data.data);
+    setText(ResponseUserData.data.data);
   }
 
   // fetch the data

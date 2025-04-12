@@ -72,24 +72,57 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { setUser, UserData } from "@/store/features/UserDataSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 
-interface UserDetails {
-  name: string | undefined | null;
-  email: string | undefined;
-  image: string | undefined;
-}
-
+// SideBar Component
 export default function AppSideBar() {
-  const [pages, setPages] =
-    useState<{ name: string; items: { title: string; url: string }[] }[]>();
+  // const [pages, setPages] =
+  // useState<{ name: string; items: { title: string; url: string }[] }[]>();
   const [loading, setLoading] = useState(false); // spiner
   const { user } = useUser();
+  const dispatch = useAppDispatch();
 
-  const userDetails: UserDetails = {
-    name: user?.fullName,
-    email: user?.emailAddresses[0].emailAddress,
-    image: user?.imageUrl,
+  const pages = {
+    items: [
+      {
+        name: "Private",
+        items: [
+          {
+            title: "Personal Notes",
+            url: "01f07170-1951-4fa6-b04a-54878de48ccc",
+          },
+          {
+            title: "Project Ideas",
+            url: "3741c85b-339e-4822-8fd8-82f690af8417",
+          },
+        ],
+      },
+      {
+        name: "Favourite",
+        items: [
+          { title: "Inspiration Board", url: "/favourite/inspiration" },
+          { title: "Top Articles", url: "/favourite/articles" },
+        ],
+      },
+    ],
   };
+
+  // Dispatch the User Details properly
+  useEffect(() => {
+    // Getting the User Details
+    const userDetails: UserData = {
+      uid: user?.id || "",
+      name: user?.fullName || "",
+      email: user?.emailAddresses[0]?.emailAddress || "",
+      image: user?.imageUrl || "",
+    };
+
+    if (user?.id != null) {
+      console.log("Dispatching the user: ", userDetails);
+      dispatch(setUser(userDetails));
+    }
+  }, [user]);
 
   const WorkSpace = {
     workspace: [
@@ -109,14 +142,24 @@ export default function AppSideBar() {
 
   // fetch the data
   async function getData() {
+    if (!user) {
+      return;
+    }
+    
     try {
-      const response = await axios.get("/api/pages-created", {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axios.post(
+        "/api/pages-created",
+        {
+          email: user?.emailAddresses[0].emailAddress,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-      const fetchData = response.data.response;
+      // const fetchData = response.data.response;
       // userData.setPrivateField(data);
-      setPages(fetchData);
+      console.log(response);
     } catch (err) {
       console.error(err);
     } finally {
@@ -127,7 +170,7 @@ export default function AppSideBar() {
   useEffect(() => {
     setLoading(true);
     getData();
-  }, []);
+  }, [user]);
 
   if (loading) {
     return <MySideBarSkeleton />;
@@ -150,13 +193,14 @@ export default function AppSideBar() {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={userDetails} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
 }
 
+// Sidebar Pages Section
 function Pages({
   items,
   refreshFunction,
@@ -164,12 +208,9 @@ function Pages({
   items: { name: string; items: { title: string; url: string }[] }[];
   refreshFunction: () => void;
 }) {
+  // selected Pid
   const [selectPid, setSelectPid] = useState<string>("");
 
-  // Context Menu
-  const OnSelectDelete = () => {};
-
-  console.log("Selected PID : ", selectPid);
   return (
     <>
       <SidebarGroup>
@@ -177,7 +218,6 @@ function Pages({
 
         <ContextMenu>
           {/* Favourite Pages */}
-
 
           <SidebarMenu>
             <Collapsible
@@ -294,7 +334,6 @@ function Pages({
 
                 toast(response.data.message);
                 // after deleting the page we will remove from the page
-                
               }}
             >
               <p>Delete</p>
@@ -311,8 +350,15 @@ function Pages({
   );
 }
 
+// Create New Page Alert Dialog
 function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
+  // storing the page title
   const [pageName, setPageName] = useState<string>("");
+  // storing the email
+  const reduxUser = useAppSelector((state) => state.userData.user);
+
+  // nested pages ppid for now we are not sending
+  // const ppid
 
   async function handleSubmit() {
     console.log("clicked");
@@ -325,7 +371,9 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
     // send the request to the backend
     try {
       const response = await axios.post("/api/create", {
-        pageName: pageName,
+        title: pageName,
+        email: reduxUser.email,
+        ppid: null, // for future reference
       });
 
       if (!response.status) {
@@ -337,9 +385,11 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
 
       // we can also redirect it to the page which is currrently created
       // router.push("/notion");
-      refreshFunction();
+
+      // Changes in the main data stored
+      // refreshFunction();
     } catch (err) {
-      console.error(err);
+      toast(err.response.data.message || "ERRROR");
     } finally {
       setPageName("");
     }
@@ -372,8 +422,10 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
   );
 }
 
-function NavUser({ user }: { user: UserDetails }) {
+// User Profile on Footer
+function NavUser() {
   const { isMobile } = useSidebar();
+  const user = useAppSelector((state) => state.userData.user);
 
   return (
     <>
@@ -449,6 +501,7 @@ function NavUser({ user }: { user: UserDetails }) {
   );
 }
 
+// WorkSpace Switcher on Header
 function NavWorkSpaceSwitcher({
   workspace,
 }: {
@@ -522,6 +575,7 @@ function NavWorkSpaceSwitcher({
   );
 }
 
+// Side Bar Skeleton on Loading
 function MySideBarSkeleton() {
   return (
     <SidebarMenu className="w-[250px]">

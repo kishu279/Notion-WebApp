@@ -12,6 +12,7 @@ export default function NotionLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <>
       <SidebarProvider>
@@ -24,7 +25,6 @@ export default function NotionLayout({
             >
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4 " />
-              
               {/* Breadcrunmbs */}
               URL
             </div>

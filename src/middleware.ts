@@ -4,7 +4,7 @@ import {
   createRouteMatcher,
 } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(["/api/create(.*)"]);
+const isProtectedRoute = createRouteMatcher([""]);
 
 export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, req) => {
   const { userId, redirectToSignIn } = await auth();

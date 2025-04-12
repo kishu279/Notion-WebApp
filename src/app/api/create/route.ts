@@ -1,70 +1,59 @@
 import prisma from "@/config/prisma";
 import { currentUser } from "@clerk/nextjs/server";
+import { NextRequest } from "next/server";
 
-// Page Creation
-export async function POST(req: Request) {
-  // protected the route
-  // await auth.protect();
-
-  const user = await currentUser();
-  const userEmail: string = user?.emailAddresses[0].emailAddress as string;
-  const userName: string = user?.fullName as string;
+export async function POST(req: NextRequest) {
+  const {
+    email,
+    title,
+    ppid,
+  }: { email: string; title: string; ppid?: string } = await req.json();
 
   try {
-    const userFound = await prisma.user.findUnique({
-      where: { email: userEmail },
-    });
+    // find for the user exists
+    if (!(await prisma.user.findUnique({ where: { email: email } }))) {
+      const user = await currentUser();
 
-    if (!userFound) {
-      const newUser = await prisma.user.create({
-        data: { name: userName, email: userEmail },
+      await prisma.user.create({
+        data: {
+          email: email,
+          name: user?.fullName as string,
+          // name: "Sourav",
+        },
       });
 
-      if (!newUser) {
-        return new Response(
-          JSON.stringify({ message: "User Creation Failed", success: false }),
-          { status: 400 }
-        );
-      }
+      console.log("User Createed");
     }
 
-    const { pageName }: { pageName: string } = await req.json();
-
+    // crate page
     const response = await prisma.pages.create({
-      data: {
-        title: pageName,
-        content: "",
-        email: userFound?.email as string,
-        private: true,
-      },
+      data: { email: email as string, title: title, parentPageId: ppid },
     });
 
     if (!response) {
       return new Response(
-        JSON.stringify({ message: "ERR OCCURRED", success: false }),
+        JSON.stringify({
+          message: "ERROR while creating pages",
+          success: false,
+        }),
         { status: 400 }
       );
     }
 
-    return Response.json(
-      {
-        message: "Page Created Successfully",
+    return new Response(
+      JSON.stringify({
+        message: "Created Successfully",
+        pid: response.pid,
         success: true,
-      },
+      }),
       {
         status: 200,
       }
     );
   } catch (err) {
     console.error(err);
-    return Response.json(
-      {
-        message: err,
-        success: false,
-      },
-      {
-        status: 500,
-      }
-    );
+    return new Response(JSON.stringify({ message: "Error creating page", success: false }), {
+      status: 400,
+    });
   }
 }

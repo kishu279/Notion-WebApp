@@ -8,10 +8,6 @@ export default async function Page() {
   const user = await currentUser();
 
   if (user) {
-    console.log("User : ", user);
-    // Storing the data in the User
-
-    // revalidatePath("/notion");
     redirect("/notion");
   }
 
