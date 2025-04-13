@@ -19,15 +19,46 @@ model User {
   name  String
   email String @unique
 
-  pages Pages[]
+  pages Pages[] @relation("UserPages")
 }
 
-model Pages {
-  pid     String  @id @default(uuid())
-  title   String
-  content String
-  private Boolean @default(false)
+//  model Pages {
+//    pid       String        @id @default(uuid())
+//    title     String        
+//    content   String        
+//    private   Boolean       @default(false)
 
+//    email     String        
+//    user      User          @relation(fields: [email], references: [email])
+//  }
+
+model Pages {
+  pid       String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  private   Boolean  @default(true)
+
+  // reference user table
   email String
-  user  User   @relation(fields: [email], references: [email])
+  user  User   @relation("UserPages", fields: [email], references: [email])
+
+  // Contents
+  contents Contents[]
+
+  // self references to the pages id
+  parentPageId String? // it might have the parent page
+  parentPage   Pages?  @relation("subPages", fields: [parentPageId], references: [pid]) // parent page refernces
+  subPages     Pages[] @relation("subPages") // back relation
+}
+
+model Contents {
+  cid       String   @id @default(uuid())
+  pid       String
+  type      String
+  content   String
+  order     Int
+  createdAt DateTime @default(now())
+
+  page Pages @relation(fields: [pid], references: [pid])
 }

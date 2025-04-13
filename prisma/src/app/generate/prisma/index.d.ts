@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Pages = $Result.DefaultSelection<Prisma.$PagesPayload>
+/**
+ * Model Contents
+ * 
+ */
+export type Contents = $Result.DefaultSelection<Prisma.$ContentsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -168,6 +173,16 @@ export class PrismaClient<
     * ```
     */
   get pages(): Prisma.PagesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contents`: Exposes CRUD operations for the **Contents** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Contents
+    * const contents = await prisma.contents.findMany()
+    * ```
+    */
+  get contents(): Prisma.ContentsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -226,8 +241,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.5.0
-   * Query Engine version: 173f8d54f8d52e692c7e27e72a88314ec7aeff60
+   * Prisma Client JS version: 6.6.0
+   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
    */
   export type PrismaVersion = {
     client: string
@@ -609,7 +624,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Pages: 'Pages'
+    Pages: 'Pages',
+    Contents: 'Contents'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -628,7 +644,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "pages"
+      modelProps: "user" | "pages" | "contents"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -780,6 +796,80 @@ export namespace Prisma {
           }
         }
       }
+      Contents: {
+        payload: Prisma.$ContentsPayload<ExtArgs>
+        fields: Prisma.ContentsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContentsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContentsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          findFirst: {
+            args: Prisma.ContentsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContentsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          findMany: {
+            args: Prisma.ContentsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>[]
+          }
+          create: {
+            args: Prisma.ContentsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          createMany: {
+            args: Prisma.ContentsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContentsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>[]
+          }
+          delete: {
+            args: Prisma.ContentsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          update: {
+            args: Prisma.ContentsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContentsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContentsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContentsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContentsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContentsPayload>
+          }
+          aggregate: {
+            args: Prisma.ContentsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContents>
+          }
+          groupBy: {
+            args: Prisma.ContentsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContentsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContentsCountArgs<ExtArgs>
+            result: $Utils.Optional<ContentsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -866,6 +956,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     pages?: PagesOmit
+    contents?: ContentsOmit
   }
 
   /* Types for Logging */
@@ -982,6 +1073,46 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagesWhereInput
+  }
+
+
+  /**
+   * Count Type PagesCountOutputType
+   */
+
+  export type PagesCountOutputType = {
+    contents: number
+    subPages: number
+  }
+
+  export type PagesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contents?: boolean | PagesCountOutputTypeCountContentsArgs
+    subPages?: boolean | PagesCountOutputTypeCountSubPagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PagesCountOutputType without action
+   */
+  export type PagesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PagesCountOutputType
+     */
+    select?: PagesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PagesCountOutputType without action
+   */
+  export type PagesCountOutputTypeCountContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContentsWhereInput
+  }
+
+  /**
+   * PagesCountOutputType without action
+   */
+  export type PagesCountOutputTypeCountSubPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PagesWhereInput
   }
 
@@ -1599,7 +1730,7 @@ export namespace Prisma {
 
   /**
    * Fields of the User model
-   */ 
+   */
   interface UserFieldRefs {
     readonly uid: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
@@ -2047,25 +2178,31 @@ export namespace Prisma {
   export type PagesMinAggregateOutputType = {
     pid: string | null
     title: string | null
-    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     private: boolean | null
     email: string | null
+    parentPageId: string | null
   }
 
   export type PagesMaxAggregateOutputType = {
     pid: string | null
     title: string | null
-    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     private: boolean | null
     email: string | null
+    parentPageId: string | null
   }
 
   export type PagesCountAggregateOutputType = {
     pid: number
     title: number
-    content: number
+    createdAt: number
+    updatedAt: number
     private: number
     email: number
+    parentPageId: number
     _all: number
   }
 
@@ -2073,25 +2210,31 @@ export namespace Prisma {
   export type PagesMinAggregateInputType = {
     pid?: true
     title?: true
-    content?: true
+    createdAt?: true
+    updatedAt?: true
     private?: true
     email?: true
+    parentPageId?: true
   }
 
   export type PagesMaxAggregateInputType = {
     pid?: true
     title?: true
-    content?: true
+    createdAt?: true
+    updatedAt?: true
     private?: true
     email?: true
+    parentPageId?: true
   }
 
   export type PagesCountAggregateInputType = {
     pid?: true
     title?: true
-    content?: true
+    createdAt?: true
+    updatedAt?: true
     private?: true
     email?: true
+    parentPageId?: true
     _all?: true
   }
 
@@ -2170,9 +2313,11 @@ export namespace Prisma {
   export type PagesGroupByOutputType = {
     pid: string
     title: string
-    content: string
+    createdAt: Date
+    updatedAt: Date
     private: boolean
     email: string
+    parentPageId: string | null
     _count: PagesCountAggregateOutputType | null
     _min: PagesMinAggregateOutputType | null
     _max: PagesMaxAggregateOutputType | null
@@ -2195,60 +2340,85 @@ export namespace Prisma {
   export type PagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     pid?: boolean
     title?: boolean
-    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     private?: boolean
     email?: boolean
+    parentPageId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    contents?: boolean | Pages$contentsArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
+    subPages?: boolean | Pages$subPagesArgs<ExtArgs>
+    _count?: boolean | PagesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
   export type PagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     pid?: boolean
     title?: boolean
-    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     private?: boolean
     email?: boolean
+    parentPageId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
   export type PagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     pid?: boolean
     title?: boolean
-    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     private?: boolean
     email?: boolean
+    parentPageId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
   }, ExtArgs["result"]["pages"]>
 
   export type PagesSelectScalar = {
     pid?: boolean
     title?: boolean
-    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     private?: boolean
     email?: boolean
+    parentPageId?: boolean
   }
 
-  export type PagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"pid" | "title" | "content" | "private" | "email", ExtArgs["result"]["pages"]>
+  export type PagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"pid" | "title" | "createdAt" | "updatedAt" | "private" | "email" | "parentPageId", ExtArgs["result"]["pages"]>
   export type PagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    contents?: boolean | Pages$contentsArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
+    subPages?: boolean | Pages$subPagesArgs<ExtArgs>
+    _count?: boolean | PagesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
   }
   export type PagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    parentPage?: boolean | Pages$parentPageArgs<ExtArgs>
   }
 
   export type $PagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Pages"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      contents: Prisma.$ContentsPayload<ExtArgs>[]
+      parentPage: Prisma.$PagesPayload<ExtArgs> | null
+      subPages: Prisma.$PagesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       pid: string
       title: string
-      content: string
+      createdAt: Date
+      updatedAt: Date
       private: boolean
       email: string
+      parentPageId: string | null
     }, ExtArgs["result"]["pages"]>
     composites: {}
   }
@@ -2644,6 +2814,9 @@ export namespace Prisma {
   export interface Prisma__PagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    contents<T extends Pages$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Pages$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parentPage<T extends Pages$parentPageArgs<ExtArgs> = {}>(args?: Subset<T, Pages$parentPageArgs<ExtArgs>>): Prisma__PagesClient<$Result.GetResult<Prisma.$PagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    subPages<T extends Pages$subPagesArgs<ExtArgs> = {}>(args?: Subset<T, Pages$subPagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2671,13 +2844,15 @@ export namespace Prisma {
 
   /**
    * Fields of the Pages model
-   */ 
+   */
   interface PagesFieldRefs {
     readonly pid: FieldRef<"Pages", 'String'>
     readonly title: FieldRef<"Pages", 'String'>
-    readonly content: FieldRef<"Pages", 'String'>
+    readonly createdAt: FieldRef<"Pages", 'DateTime'>
+    readonly updatedAt: FieldRef<"Pages", 'DateTime'>
     readonly private: FieldRef<"Pages", 'Boolean'>
     readonly email: FieldRef<"Pages", 'String'>
+    readonly parentPageId: FieldRef<"Pages", 'String'>
   }
     
 
@@ -3074,6 +3249,73 @@ export namespace Prisma {
   }
 
   /**
+   * Pages.contents
+   */
+  export type Pages$contentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    where?: ContentsWhereInput
+    orderBy?: ContentsOrderByWithRelationInput | ContentsOrderByWithRelationInput[]
+    cursor?: ContentsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContentsScalarFieldEnum | ContentsScalarFieldEnum[]
+  }
+
+  /**
+   * Pages.parentPage
+   */
+  export type Pages$parentPageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pages
+     */
+    select?: PagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pages
+     */
+    omit?: PagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagesInclude<ExtArgs> | null
+    where?: PagesWhereInput
+  }
+
+  /**
+   * Pages.subPages
+   */
+  export type Pages$subPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pages
+     */
+    select?: PagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pages
+     */
+    omit?: PagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagesInclude<ExtArgs> | null
+    where?: PagesWhereInput
+    orderBy?: PagesOrderByWithRelationInput | PagesOrderByWithRelationInput[]
+    cursor?: PagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PagesScalarFieldEnum | PagesScalarFieldEnum[]
+  }
+
+  /**
    * Pages without action
    */
   export type PagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3089,6 +3331,1111 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PagesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Contents
+   */
+
+  export type AggregateContents = {
+    _count: ContentsCountAggregateOutputType | null
+    _avg: ContentsAvgAggregateOutputType | null
+    _sum: ContentsSumAggregateOutputType | null
+    _min: ContentsMinAggregateOutputType | null
+    _max: ContentsMaxAggregateOutputType | null
+  }
+
+  export type ContentsAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ContentsSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ContentsMinAggregateOutputType = {
+    cid: string | null
+    pid: string | null
+    type: string | null
+    content: string | null
+    order: number | null
+    createdAt: Date | null
+  }
+
+  export type ContentsMaxAggregateOutputType = {
+    cid: string | null
+    pid: string | null
+    type: string | null
+    content: string | null
+    order: number | null
+    createdAt: Date | null
+  }
+
+  export type ContentsCountAggregateOutputType = {
+    cid: number
+    pid: number
+    type: number
+    content: number
+    order: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ContentsAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ContentsSumAggregateInputType = {
+    order?: true
+  }
+
+  export type ContentsMinAggregateInputType = {
+    cid?: true
+    pid?: true
+    type?: true
+    content?: true
+    order?: true
+    createdAt?: true
+  }
+
+  export type ContentsMaxAggregateInputType = {
+    cid?: true
+    pid?: true
+    type?: true
+    content?: true
+    order?: true
+    createdAt?: true
+  }
+
+  export type ContentsCountAggregateInputType = {
+    cid?: true
+    pid?: true
+    type?: true
+    content?: true
+    order?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ContentsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Contents to aggregate.
+     */
+    where?: ContentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: ContentsOrderByWithRelationInput | ContentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Contents
+    **/
+    _count?: true | ContentsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ContentsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ContentsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContentsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContentsMaxAggregateInputType
+  }
+
+  export type GetContentsAggregateType<T extends ContentsAggregateArgs> = {
+        [P in keyof T & keyof AggregateContents]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContents[P]>
+      : GetScalarType<T[P], AggregateContents[P]>
+  }
+
+
+
+
+  export type ContentsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContentsWhereInput
+    orderBy?: ContentsOrderByWithAggregationInput | ContentsOrderByWithAggregationInput[]
+    by: ContentsScalarFieldEnum[] | ContentsScalarFieldEnum
+    having?: ContentsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContentsCountAggregateInputType | true
+    _avg?: ContentsAvgAggregateInputType
+    _sum?: ContentsSumAggregateInputType
+    _min?: ContentsMinAggregateInputType
+    _max?: ContentsMaxAggregateInputType
+  }
+
+  export type ContentsGroupByOutputType = {
+    cid: string
+    pid: string
+    type: string
+    content: string
+    order: number
+    createdAt: Date
+    _count: ContentsCountAggregateOutputType | null
+    _avg: ContentsAvgAggregateOutputType | null
+    _sum: ContentsSumAggregateOutputType | null
+    _min: ContentsMinAggregateOutputType | null
+    _max: ContentsMaxAggregateOutputType | null
+  }
+
+  type GetContentsGroupByPayload<T extends ContentsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContentsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContentsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContentsGroupByOutputType[P]>
+            : GetScalarType<T[P], ContentsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContentsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    cid?: boolean
+    pid?: boolean
+    type?: boolean
+    content?: boolean
+    order?: boolean
+    createdAt?: boolean
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contents"]>
+
+  export type ContentsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    cid?: boolean
+    pid?: boolean
+    type?: boolean
+    content?: boolean
+    order?: boolean
+    createdAt?: boolean
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contents"]>
+
+  export type ContentsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    cid?: boolean
+    pid?: boolean
+    type?: boolean
+    content?: boolean
+    order?: boolean
+    createdAt?: boolean
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contents"]>
+
+  export type ContentsSelectScalar = {
+    cid?: boolean
+    pid?: boolean
+    type?: boolean
+    content?: boolean
+    order?: boolean
+    createdAt?: boolean
+  }
+
+  export type ContentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"cid" | "pid" | "type" | "content" | "order" | "createdAt", ExtArgs["result"]["contents"]>
+  export type ContentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }
+  export type ContentsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }
+  export type ContentsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PagesDefaultArgs<ExtArgs>
+  }
+
+  export type $ContentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Contents"
+    objects: {
+      page: Prisma.$PagesPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      cid: string
+      pid: string
+      type: string
+      content: string
+      order: number
+      createdAt: Date
+    }, ExtArgs["result"]["contents"]>
+    composites: {}
+  }
+
+  type ContentsGetPayload<S extends boolean | null | undefined | ContentsDefaultArgs> = $Result.GetResult<Prisma.$ContentsPayload, S>
+
+  type ContentsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContentsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContentsCountAggregateInputType | true
+    }
+
+  export interface ContentsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Contents'], meta: { name: 'Contents' } }
+    /**
+     * Find zero or one Contents that matches the filter.
+     * @param {ContentsFindUniqueArgs} args - Arguments to find a Contents
+     * @example
+     * // Get one Contents
+     * const contents = await prisma.contents.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContentsFindUniqueArgs>(args: SelectSubset<T, ContentsFindUniqueArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Contents that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContentsFindUniqueOrThrowArgs} args - Arguments to find a Contents
+     * @example
+     * // Get one Contents
+     * const contents = await prisma.contents.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContentsFindUniqueOrThrowArgs>(args: SelectSubset<T, ContentsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Contents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsFindFirstArgs} args - Arguments to find a Contents
+     * @example
+     * // Get one Contents
+     * const contents = await prisma.contents.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContentsFindFirstArgs>(args?: SelectSubset<T, ContentsFindFirstArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Contents that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsFindFirstOrThrowArgs} args - Arguments to find a Contents
+     * @example
+     * // Get one Contents
+     * const contents = await prisma.contents.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContentsFindFirstOrThrowArgs>(args?: SelectSubset<T, ContentsFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Contents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Contents
+     * const contents = await prisma.contents.findMany()
+     * 
+     * // Get first 10 Contents
+     * const contents = await prisma.contents.findMany({ take: 10 })
+     * 
+     * // Only select the `cid`
+     * const contentsWithCidOnly = await prisma.contents.findMany({ select: { cid: true } })
+     * 
+     */
+    findMany<T extends ContentsFindManyArgs>(args?: SelectSubset<T, ContentsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Contents.
+     * @param {ContentsCreateArgs} args - Arguments to create a Contents.
+     * @example
+     * // Create one Contents
+     * const Contents = await prisma.contents.create({
+     *   data: {
+     *     // ... data to create a Contents
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContentsCreateArgs>(args: SelectSubset<T, ContentsCreateArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Contents.
+     * @param {ContentsCreateManyArgs} args - Arguments to create many Contents.
+     * @example
+     * // Create many Contents
+     * const contents = await prisma.contents.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContentsCreateManyArgs>(args?: SelectSubset<T, ContentsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Contents and returns the data saved in the database.
+     * @param {ContentsCreateManyAndReturnArgs} args - Arguments to create many Contents.
+     * @example
+     * // Create many Contents
+     * const contents = await prisma.contents.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Contents and only return the `cid`
+     * const contentsWithCidOnly = await prisma.contents.createManyAndReturn({
+     *   select: { cid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContentsCreateManyAndReturnArgs>(args?: SelectSubset<T, ContentsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Contents.
+     * @param {ContentsDeleteArgs} args - Arguments to delete one Contents.
+     * @example
+     * // Delete one Contents
+     * const Contents = await prisma.contents.delete({
+     *   where: {
+     *     // ... filter to delete one Contents
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContentsDeleteArgs>(args: SelectSubset<T, ContentsDeleteArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Contents.
+     * @param {ContentsUpdateArgs} args - Arguments to update one Contents.
+     * @example
+     * // Update one Contents
+     * const contents = await prisma.contents.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContentsUpdateArgs>(args: SelectSubset<T, ContentsUpdateArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Contents.
+     * @param {ContentsDeleteManyArgs} args - Arguments to filter Contents to delete.
+     * @example
+     * // Delete a few Contents
+     * const { count } = await prisma.contents.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContentsDeleteManyArgs>(args?: SelectSubset<T, ContentsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Contents
+     * const contents = await prisma.contents.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContentsUpdateManyArgs>(args: SelectSubset<T, ContentsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contents and returns the data updated in the database.
+     * @param {ContentsUpdateManyAndReturnArgs} args - Arguments to update many Contents.
+     * @example
+     * // Update many Contents
+     * const contents = await prisma.contents.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Contents and only return the `cid`
+     * const contentsWithCidOnly = await prisma.contents.updateManyAndReturn({
+     *   select: { cid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContentsUpdateManyAndReturnArgs>(args: SelectSubset<T, ContentsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Contents.
+     * @param {ContentsUpsertArgs} args - Arguments to update or create a Contents.
+     * @example
+     * // Update or create a Contents
+     * const contents = await prisma.contents.upsert({
+     *   create: {
+     *     // ... data to create a Contents
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Contents we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContentsUpsertArgs>(args: SelectSubset<T, ContentsUpsertArgs<ExtArgs>>): Prisma__ContentsClient<$Result.GetResult<Prisma.$ContentsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsCountArgs} args - Arguments to filter Contents to count.
+     * @example
+     * // Count the number of Contents
+     * const count = await prisma.contents.count({
+     *   where: {
+     *     // ... the filter for the Contents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContentsCountArgs>(
+      args?: Subset<T, ContentsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContentsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContentsAggregateArgs>(args: Subset<T, ContentsAggregateArgs>): Prisma.PrismaPromise<GetContentsAggregateType<T>>
+
+    /**
+     * Group by Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContentsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContentsGroupByArgs['orderBy'] }
+        : { orderBy?: ContentsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContentsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContentsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Contents model
+   */
+  readonly fields: ContentsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Contents.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends PagesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PagesDefaultArgs<ExtArgs>>): Prisma__PagesClient<$Result.GetResult<Prisma.$PagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Contents model
+   */
+  interface ContentsFieldRefs {
+    readonly cid: FieldRef<"Contents", 'String'>
+    readonly pid: FieldRef<"Contents", 'String'>
+    readonly type: FieldRef<"Contents", 'String'>
+    readonly content: FieldRef<"Contents", 'String'>
+    readonly order: FieldRef<"Contents", 'Int'>
+    readonly createdAt: FieldRef<"Contents", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Contents findUnique
+   */
+  export type ContentsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where: ContentsWhereUniqueInput
+  }
+
+  /**
+   * Contents findUniqueOrThrow
+   */
+  export type ContentsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where: ContentsWhereUniqueInput
+  }
+
+  /**
+   * Contents findFirst
+   */
+  export type ContentsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where?: ContentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: ContentsOrderByWithRelationInput | ContentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contents.
+     */
+    cursor?: ContentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contents.
+     */
+    distinct?: ContentsScalarFieldEnum | ContentsScalarFieldEnum[]
+  }
+
+  /**
+   * Contents findFirstOrThrow
+   */
+  export type ContentsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where?: ContentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: ContentsOrderByWithRelationInput | ContentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contents.
+     */
+    cursor?: ContentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contents.
+     */
+    distinct?: ContentsScalarFieldEnum | ContentsScalarFieldEnum[]
+  }
+
+  /**
+   * Contents findMany
+   */
+  export type ContentsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where?: ContentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: ContentsOrderByWithRelationInput | ContentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Contents.
+     */
+    cursor?: ContentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    distinct?: ContentsScalarFieldEnum | ContentsScalarFieldEnum[]
+  }
+
+  /**
+   * Contents create
+   */
+  export type ContentsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Contents.
+     */
+    data: XOR<ContentsCreateInput, ContentsUncheckedCreateInput>
+  }
+
+  /**
+   * Contents createMany
+   */
+  export type ContentsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Contents.
+     */
+    data: ContentsCreateManyInput | ContentsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Contents createManyAndReturn
+   */
+  export type ContentsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * The data used to create many Contents.
+     */
+    data: ContentsCreateManyInput | ContentsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Contents update
+   */
+  export type ContentsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Contents.
+     */
+    data: XOR<ContentsUpdateInput, ContentsUncheckedUpdateInput>
+    /**
+     * Choose, which Contents to update.
+     */
+    where: ContentsWhereUniqueInput
+  }
+
+  /**
+   * Contents updateMany
+   */
+  export type ContentsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Contents.
+     */
+    data: XOR<ContentsUpdateManyMutationInput, ContentsUncheckedUpdateManyInput>
+    /**
+     * Filter which Contents to update
+     */
+    where?: ContentsWhereInput
+    /**
+     * Limit how many Contents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Contents updateManyAndReturn
+   */
+  export type ContentsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * The data used to update Contents.
+     */
+    data: XOR<ContentsUpdateManyMutationInput, ContentsUncheckedUpdateManyInput>
+    /**
+     * Filter which Contents to update
+     */
+    where?: ContentsWhereInput
+    /**
+     * Limit how many Contents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Contents upsert
+   */
+  export type ContentsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Contents to update in case it exists.
+     */
+    where: ContentsWhereUniqueInput
+    /**
+     * In case the Contents found by the `where` argument doesn't exist, create a new Contents with this data.
+     */
+    create: XOR<ContentsCreateInput, ContentsUncheckedCreateInput>
+    /**
+     * In case the Contents was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContentsUpdateInput, ContentsUncheckedUpdateInput>
+  }
+
+  /**
+   * Contents delete
+   */
+  export type ContentsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
+    /**
+     * Filter which Contents to delete.
+     */
+    where: ContentsWhereUniqueInput
+  }
+
+  /**
+   * Contents deleteMany
+   */
+  export type ContentsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Contents to delete
+     */
+    where?: ContentsWhereInput
+    /**
+     * Limit how many Contents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Contents without action
+   */
+  export type ContentsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contents
+     */
+    select?: ContentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contents
+     */
+    omit?: ContentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentsInclude<ExtArgs> | null
   }
 
 
@@ -3118,12 +4465,26 @@ export namespace Prisma {
   export const PagesScalarFieldEnum: {
     pid: 'pid',
     title: 'title',
-    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     private: 'private',
-    email: 'email'
+    email: 'email',
+    parentPageId: 'parentPageId'
   };
 
   export type PagesScalarFieldEnum = (typeof PagesScalarFieldEnum)[keyof typeof PagesScalarFieldEnum]
+
+
+  export const ContentsScalarFieldEnum: {
+    cid: 'cid',
+    pid: 'pid',
+    type: 'type',
+    content: 'content',
+    order: 'order',
+    createdAt: 'createdAt'
+  };
+
+  export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typeof ContentsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3142,8 +4503,16 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   /**
-   * Field references 
+   * Field references
    */
 
 
@@ -3158,6 +4527,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -3179,6 +4562,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -3236,19 +4633,29 @@ export namespace Prisma {
     NOT?: PagesWhereInput | PagesWhereInput[]
     pid?: StringFilter<"Pages"> | string
     title?: StringFilter<"Pages"> | string
-    content?: StringFilter<"Pages"> | string
+    createdAt?: DateTimeFilter<"Pages"> | Date | string
+    updatedAt?: DateTimeFilter<"Pages"> | Date | string
     private?: BoolFilter<"Pages"> | boolean
     email?: StringFilter<"Pages"> | string
+    parentPageId?: StringNullableFilter<"Pages"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    contents?: ContentsListRelationFilter
+    parentPage?: XOR<PagesNullableScalarRelationFilter, PagesWhereInput> | null
+    subPages?: PagesListRelationFilter
   }
 
   export type PagesOrderByWithRelationInput = {
     pid?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     private?: SortOrder
     email?: SortOrder
+    parentPageId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    contents?: ContentsOrderByRelationAggregateInput
+    parentPage?: PagesOrderByWithRelationInput
+    subPages?: PagesOrderByRelationAggregateInput
   }
 
   export type PagesWhereUniqueInput = Prisma.AtLeast<{
@@ -3257,18 +4664,25 @@ export namespace Prisma {
     OR?: PagesWhereInput[]
     NOT?: PagesWhereInput | PagesWhereInput[]
     title?: StringFilter<"Pages"> | string
-    content?: StringFilter<"Pages"> | string
+    createdAt?: DateTimeFilter<"Pages"> | Date | string
+    updatedAt?: DateTimeFilter<"Pages"> | Date | string
     private?: BoolFilter<"Pages"> | boolean
     email?: StringFilter<"Pages"> | string
+    parentPageId?: StringNullableFilter<"Pages"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    contents?: ContentsListRelationFilter
+    parentPage?: XOR<PagesNullableScalarRelationFilter, PagesWhereInput> | null
+    subPages?: PagesListRelationFilter
   }, "pid">
 
   export type PagesOrderByWithAggregationInput = {
     pid?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     private?: SortOrder
     email?: SortOrder
+    parentPageId?: SortOrderInput | SortOrder
     _count?: PagesCountOrderByAggregateInput
     _max?: PagesMaxOrderByAggregateInput
     _min?: PagesMinOrderByAggregateInput
@@ -3280,9 +4694,73 @@ export namespace Prisma {
     NOT?: PagesScalarWhereWithAggregatesInput | PagesScalarWhereWithAggregatesInput[]
     pid?: StringWithAggregatesFilter<"Pages"> | string
     title?: StringWithAggregatesFilter<"Pages"> | string
-    content?: StringWithAggregatesFilter<"Pages"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Pages"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Pages"> | Date | string
     private?: BoolWithAggregatesFilter<"Pages"> | boolean
     email?: StringWithAggregatesFilter<"Pages"> | string
+    parentPageId?: StringNullableWithAggregatesFilter<"Pages"> | string | null
+  }
+
+  export type ContentsWhereInput = {
+    AND?: ContentsWhereInput | ContentsWhereInput[]
+    OR?: ContentsWhereInput[]
+    NOT?: ContentsWhereInput | ContentsWhereInput[]
+    cid?: StringFilter<"Contents"> | string
+    pid?: StringFilter<"Contents"> | string
+    type?: StringFilter<"Contents"> | string
+    content?: StringFilter<"Contents"> | string
+    order?: IntFilter<"Contents"> | number
+    createdAt?: DateTimeFilter<"Contents"> | Date | string
+    page?: XOR<PagesScalarRelationFilter, PagesWhereInput>
+  }
+
+  export type ContentsOrderByWithRelationInput = {
+    cid?: SortOrder
+    pid?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    page?: PagesOrderByWithRelationInput
+  }
+
+  export type ContentsWhereUniqueInput = Prisma.AtLeast<{
+    cid?: string
+    AND?: ContentsWhereInput | ContentsWhereInput[]
+    OR?: ContentsWhereInput[]
+    NOT?: ContentsWhereInput | ContentsWhereInput[]
+    pid?: StringFilter<"Contents"> | string
+    type?: StringFilter<"Contents"> | string
+    content?: StringFilter<"Contents"> | string
+    order?: IntFilter<"Contents"> | number
+    createdAt?: DateTimeFilter<"Contents"> | Date | string
+    page?: XOR<PagesScalarRelationFilter, PagesWhereInput>
+  }, "cid">
+
+  export type ContentsOrderByWithAggregationInput = {
+    cid?: SortOrder
+    pid?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    _count?: ContentsCountOrderByAggregateInput
+    _avg?: ContentsAvgOrderByAggregateInput
+    _max?: ContentsMaxOrderByAggregateInput
+    _min?: ContentsMinOrderByAggregateInput
+    _sum?: ContentsSumOrderByAggregateInput
+  }
+
+  export type ContentsScalarWhereWithAggregatesInput = {
+    AND?: ContentsScalarWhereWithAggregatesInput | ContentsScalarWhereWithAggregatesInput[]
+    OR?: ContentsScalarWhereWithAggregatesInput[]
+    NOT?: ContentsScalarWhereWithAggregatesInput | ContentsScalarWhereWithAggregatesInput[]
+    cid?: StringWithAggregatesFilter<"Contents"> | string
+    pid?: StringWithAggregatesFilter<"Contents"> | string
+    type?: StringWithAggregatesFilter<"Contents"> | string
+    content?: StringWithAggregatesFilter<"Contents"> | string
+    order?: IntWithAggregatesFilter<"Contents"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Contents"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -3334,56 +4812,139 @@ export namespace Prisma {
   export type PagesCreateInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
     user: UserCreateNestedOneWithoutPagesInput
+    contents?: ContentsCreateNestedManyWithoutPageInput
+    parentPage?: PagesCreateNestedOneWithoutSubPagesInput
+    subPages?: PagesCreateNestedManyWithoutParentPageInput
   }
 
   export type PagesUncheckedCreateInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
     email: string
+    parentPageId?: string | null
+    contents?: ContentsUncheckedCreateNestedManyWithoutPageInput
+    subPages?: PagesUncheckedCreateNestedManyWithoutParentPageInput
   }
 
   export type PagesUpdateInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutPagesNestedInput
+    contents?: ContentsUpdateManyWithoutPageNestedInput
+    parentPage?: PagesUpdateOneWithoutSubPagesNestedInput
+    subPages?: PagesUpdateManyWithoutParentPageNestedInput
   }
 
   export type PagesUncheckedUpdateInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contents?: ContentsUncheckedUpdateManyWithoutPageNestedInput
+    subPages?: PagesUncheckedUpdateManyWithoutParentPageNestedInput
   }
 
   export type PagesCreateManyInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
     email: string
+    parentPageId?: string | null
   }
 
   export type PagesUpdateManyMutationInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PagesUncheckedUpdateManyInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ContentsCreateInput = {
+    cid?: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+    page: PagesCreateNestedOneWithoutContentsInput
+  }
+
+  export type ContentsUncheckedCreateInput = {
+    cid?: string
+    pid: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+  }
+
+  export type ContentsUpdateInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: PagesUpdateOneRequiredWithoutContentsNestedInput
+  }
+
+  export type ContentsUncheckedUpdateInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    pid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentsCreateManyInput = {
+    cid?: string
+    pid: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+  }
+
+  export type ContentsUpdateManyMutationInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentsUncheckedUpdateManyInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    pid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3447,9 +5008,35 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -3457,28 +5044,68 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type ContentsListRelationFilter = {
+    every?: ContentsWhereInput
+    some?: ContentsWhereInput
+    none?: ContentsWhereInput
+  }
+
+  export type PagesNullableScalarRelationFilter = {
+    is?: PagesWhereInput | null
+    isNot?: PagesWhereInput | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ContentsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PagesCountOrderByAggregateInput = {
     pid?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     private?: SortOrder
     email?: SortOrder
+    parentPageId?: SortOrder
   }
 
   export type PagesMaxOrderByAggregateInput = {
     pid?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     private?: SortOrder
     email?: SortOrder
+    parentPageId?: SortOrder
   }
 
   export type PagesMinOrderByAggregateInput = {
     pid?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     private?: SortOrder
     email?: SortOrder
+    parentPageId?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -3487,6 +5114,91 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PagesScalarRelationFilter = {
+    is?: PagesWhereInput
+    isNot?: PagesWhereInput
+  }
+
+  export type ContentsCountOrderByAggregateInput = {
+    cid?: SortOrder
+    pid?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ContentsAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ContentsMaxOrderByAggregateInput = {
+    cid?: SortOrder
+    pid?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ContentsMinOrderByAggregateInput = {
+    cid?: SortOrder
+    pid?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ContentsSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type PagesCreateNestedManyWithoutUserInput = {
@@ -3541,6 +5253,44 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ContentsCreateNestedManyWithoutPageInput = {
+    create?: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput> | ContentsCreateWithoutPageInput[] | ContentsUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: ContentsCreateOrConnectWithoutPageInput | ContentsCreateOrConnectWithoutPageInput[]
+    createMany?: ContentsCreateManyPageInputEnvelope
+    connect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+  }
+
+  export type PagesCreateNestedOneWithoutSubPagesInput = {
+    create?: XOR<PagesCreateWithoutSubPagesInput, PagesUncheckedCreateWithoutSubPagesInput>
+    connectOrCreate?: PagesCreateOrConnectWithoutSubPagesInput
+    connect?: PagesWhereUniqueInput
+  }
+
+  export type PagesCreateNestedManyWithoutParentPageInput = {
+    create?: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput> | PagesCreateWithoutParentPageInput[] | PagesUncheckedCreateWithoutParentPageInput[]
+    connectOrCreate?: PagesCreateOrConnectWithoutParentPageInput | PagesCreateOrConnectWithoutParentPageInput[]
+    createMany?: PagesCreateManyParentPageInputEnvelope
+    connect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+  }
+
+  export type ContentsUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput> | ContentsCreateWithoutPageInput[] | ContentsUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: ContentsCreateOrConnectWithoutPageInput | ContentsCreateOrConnectWithoutPageInput[]
+    createMany?: ContentsCreateManyPageInputEnvelope
+    connect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+  }
+
+  export type PagesUncheckedCreateNestedManyWithoutParentPageInput = {
+    create?: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput> | PagesCreateWithoutParentPageInput[] | PagesUncheckedCreateWithoutParentPageInput[]
+    connectOrCreate?: PagesCreateOrConnectWithoutParentPageInput | PagesCreateOrConnectWithoutParentPageInput[]
+    createMany?: PagesCreateManyParentPageInputEnvelope
+    connect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -3551,6 +5301,98 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPagesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPagesInput, UserUpdateWithoutPagesInput>, UserUncheckedUpdateWithoutPagesInput>
+  }
+
+  export type ContentsUpdateManyWithoutPageNestedInput = {
+    create?: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput> | ContentsCreateWithoutPageInput[] | ContentsUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: ContentsCreateOrConnectWithoutPageInput | ContentsCreateOrConnectWithoutPageInput[]
+    upsert?: ContentsUpsertWithWhereUniqueWithoutPageInput | ContentsUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: ContentsCreateManyPageInputEnvelope
+    set?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    disconnect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    delete?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    connect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    update?: ContentsUpdateWithWhereUniqueWithoutPageInput | ContentsUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: ContentsUpdateManyWithWhereWithoutPageInput | ContentsUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: ContentsScalarWhereInput | ContentsScalarWhereInput[]
+  }
+
+  export type PagesUpdateOneWithoutSubPagesNestedInput = {
+    create?: XOR<PagesCreateWithoutSubPagesInput, PagesUncheckedCreateWithoutSubPagesInput>
+    connectOrCreate?: PagesCreateOrConnectWithoutSubPagesInput
+    upsert?: PagesUpsertWithoutSubPagesInput
+    disconnect?: PagesWhereInput | boolean
+    delete?: PagesWhereInput | boolean
+    connect?: PagesWhereUniqueInput
+    update?: XOR<XOR<PagesUpdateToOneWithWhereWithoutSubPagesInput, PagesUpdateWithoutSubPagesInput>, PagesUncheckedUpdateWithoutSubPagesInput>
+  }
+
+  export type PagesUpdateManyWithoutParentPageNestedInput = {
+    create?: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput> | PagesCreateWithoutParentPageInput[] | PagesUncheckedCreateWithoutParentPageInput[]
+    connectOrCreate?: PagesCreateOrConnectWithoutParentPageInput | PagesCreateOrConnectWithoutParentPageInput[]
+    upsert?: PagesUpsertWithWhereUniqueWithoutParentPageInput | PagesUpsertWithWhereUniqueWithoutParentPageInput[]
+    createMany?: PagesCreateManyParentPageInputEnvelope
+    set?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    disconnect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    delete?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    connect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    update?: PagesUpdateWithWhereUniqueWithoutParentPageInput | PagesUpdateWithWhereUniqueWithoutParentPageInput[]
+    updateMany?: PagesUpdateManyWithWhereWithoutParentPageInput | PagesUpdateManyWithWhereWithoutParentPageInput[]
+    deleteMany?: PagesScalarWhereInput | PagesScalarWhereInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type ContentsUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput> | ContentsCreateWithoutPageInput[] | ContentsUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: ContentsCreateOrConnectWithoutPageInput | ContentsCreateOrConnectWithoutPageInput[]
+    upsert?: ContentsUpsertWithWhereUniqueWithoutPageInput | ContentsUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: ContentsCreateManyPageInputEnvelope
+    set?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    disconnect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    delete?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    connect?: ContentsWhereUniqueInput | ContentsWhereUniqueInput[]
+    update?: ContentsUpdateWithWhereUniqueWithoutPageInput | ContentsUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: ContentsUpdateManyWithWhereWithoutPageInput | ContentsUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: ContentsScalarWhereInput | ContentsScalarWhereInput[]
+  }
+
+  export type PagesUncheckedUpdateManyWithoutParentPageNestedInput = {
+    create?: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput> | PagesCreateWithoutParentPageInput[] | PagesUncheckedCreateWithoutParentPageInput[]
+    connectOrCreate?: PagesCreateOrConnectWithoutParentPageInput | PagesCreateOrConnectWithoutParentPageInput[]
+    upsert?: PagesUpsertWithWhereUniqueWithoutParentPageInput | PagesUpsertWithWhereUniqueWithoutParentPageInput[]
+    createMany?: PagesCreateManyParentPageInputEnvelope
+    set?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    disconnect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    delete?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    connect?: PagesWhereUniqueInput | PagesWhereUniqueInput[]
+    update?: PagesUpdateWithWhereUniqueWithoutParentPageInput | PagesUpdateWithWhereUniqueWithoutParentPageInput[]
+    updateMany?: PagesUpdateManyWithWhereWithoutParentPageInput | PagesUpdateManyWithWhereWithoutParentPageInput[]
+    deleteMany?: PagesScalarWhereInput | PagesScalarWhereInput[]
+  }
+
+  export type PagesCreateNestedOneWithoutContentsInput = {
+    create?: XOR<PagesCreateWithoutContentsInput, PagesUncheckedCreateWithoutContentsInput>
+    connectOrCreate?: PagesCreateOrConnectWithoutContentsInput
+    connect?: PagesWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PagesUpdateOneRequiredWithoutContentsNestedInput = {
+    create?: XOR<PagesCreateWithoutContentsInput, PagesUncheckedCreateWithoutContentsInput>
+    connectOrCreate?: PagesCreateOrConnectWithoutContentsInput
+    upsert?: PagesUpsertWithoutContentsInput
+    connect?: PagesWhereUniqueInput
+    update?: XOR<XOR<PagesUpdateToOneWithWhereWithoutContentsInput, PagesUpdateWithoutContentsInput>, PagesUncheckedUpdateWithoutContentsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3595,9 +5437,48 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -3608,18 +5489,81 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type PagesCreateWithoutUserInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
+    contents?: ContentsCreateNestedManyWithoutPageInput
+    parentPage?: PagesCreateNestedOneWithoutSubPagesInput
+    subPages?: PagesCreateNestedManyWithoutParentPageInput
   }
 
   export type PagesUncheckedCreateWithoutUserInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
+    parentPageId?: string | null
+    contents?: ContentsUncheckedCreateNestedManyWithoutPageInput
+    subPages?: PagesUncheckedCreateNestedManyWithoutParentPageInput
   }
 
   export type PagesCreateOrConnectWithoutUserInput = {
@@ -3654,9 +5598,11 @@ export namespace Prisma {
     NOT?: PagesScalarWhereInput | PagesScalarWhereInput[]
     pid?: StringFilter<"Pages"> | string
     title?: StringFilter<"Pages"> | string
-    content?: StringFilter<"Pages"> | string
+    createdAt?: DateTimeFilter<"Pages"> | Date | string
+    updatedAt?: DateTimeFilter<"Pages"> | Date | string
     private?: BoolFilter<"Pages"> | boolean
     email?: StringFilter<"Pages"> | string
+    parentPageId?: StringNullableFilter<"Pages"> | string | null
   }
 
   export type UserCreateWithoutPagesInput = {
@@ -3674,6 +5620,91 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutPagesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutPagesInput, UserUncheckedCreateWithoutPagesInput>
+  }
+
+  export type ContentsCreateWithoutPageInput = {
+    cid?: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+  }
+
+  export type ContentsUncheckedCreateWithoutPageInput = {
+    cid?: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+  }
+
+  export type ContentsCreateOrConnectWithoutPageInput = {
+    where: ContentsWhereUniqueInput
+    create: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput>
+  }
+
+  export type ContentsCreateManyPageInputEnvelope = {
+    data: ContentsCreateManyPageInput | ContentsCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PagesCreateWithoutSubPagesInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    user: UserCreateNestedOneWithoutPagesInput
+    contents?: ContentsCreateNestedManyWithoutPageInput
+    parentPage?: PagesCreateNestedOneWithoutSubPagesInput
+  }
+
+  export type PagesUncheckedCreateWithoutSubPagesInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    email: string
+    parentPageId?: string | null
+    contents?: ContentsUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PagesCreateOrConnectWithoutSubPagesInput = {
+    where: PagesWhereUniqueInput
+    create: XOR<PagesCreateWithoutSubPagesInput, PagesUncheckedCreateWithoutSubPagesInput>
+  }
+
+  export type PagesCreateWithoutParentPageInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    user: UserCreateNestedOneWithoutPagesInput
+    contents?: ContentsCreateNestedManyWithoutPageInput
+    subPages?: PagesCreateNestedManyWithoutParentPageInput
+  }
+
+  export type PagesUncheckedCreateWithoutParentPageInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    email: string
+    contents?: ContentsUncheckedCreateNestedManyWithoutPageInput
+    subPages?: PagesUncheckedCreateNestedManyWithoutParentPageInput
+  }
+
+  export type PagesCreateOrConnectWithoutParentPageInput = {
+    where: PagesWhereUniqueInput
+    create: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput>
+  }
+
+  export type PagesCreateManyParentPageInputEnvelope = {
+    data: PagesCreateManyParentPageInput | PagesCreateManyParentPageInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutPagesInput = {
@@ -3699,32 +5730,253 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ContentsUpsertWithWhereUniqueWithoutPageInput = {
+    where: ContentsWhereUniqueInput
+    update: XOR<ContentsUpdateWithoutPageInput, ContentsUncheckedUpdateWithoutPageInput>
+    create: XOR<ContentsCreateWithoutPageInput, ContentsUncheckedCreateWithoutPageInput>
+  }
+
+  export type ContentsUpdateWithWhereUniqueWithoutPageInput = {
+    where: ContentsWhereUniqueInput
+    data: XOR<ContentsUpdateWithoutPageInput, ContentsUncheckedUpdateWithoutPageInput>
+  }
+
+  export type ContentsUpdateManyWithWhereWithoutPageInput = {
+    where: ContentsScalarWhereInput
+    data: XOR<ContentsUpdateManyMutationInput, ContentsUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type ContentsScalarWhereInput = {
+    AND?: ContentsScalarWhereInput | ContentsScalarWhereInput[]
+    OR?: ContentsScalarWhereInput[]
+    NOT?: ContentsScalarWhereInput | ContentsScalarWhereInput[]
+    cid?: StringFilter<"Contents"> | string
+    pid?: StringFilter<"Contents"> | string
+    type?: StringFilter<"Contents"> | string
+    content?: StringFilter<"Contents"> | string
+    order?: IntFilter<"Contents"> | number
+    createdAt?: DateTimeFilter<"Contents"> | Date | string
+  }
+
+  export type PagesUpsertWithoutSubPagesInput = {
+    update: XOR<PagesUpdateWithoutSubPagesInput, PagesUncheckedUpdateWithoutSubPagesInput>
+    create: XOR<PagesCreateWithoutSubPagesInput, PagesUncheckedCreateWithoutSubPagesInput>
+    where?: PagesWhereInput
+  }
+
+  export type PagesUpdateToOneWithWhereWithoutSubPagesInput = {
+    where?: PagesWhereInput
+    data: XOR<PagesUpdateWithoutSubPagesInput, PagesUncheckedUpdateWithoutSubPagesInput>
+  }
+
+  export type PagesUpdateWithoutSubPagesInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutPagesNestedInput
+    contents?: ContentsUpdateManyWithoutPageNestedInput
+    parentPage?: PagesUpdateOneWithoutSubPagesNestedInput
+  }
+
+  export type PagesUncheckedUpdateWithoutSubPagesInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    email?: StringFieldUpdateOperationsInput | string
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contents?: ContentsUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type PagesUpsertWithWhereUniqueWithoutParentPageInput = {
+    where: PagesWhereUniqueInput
+    update: XOR<PagesUpdateWithoutParentPageInput, PagesUncheckedUpdateWithoutParentPageInput>
+    create: XOR<PagesCreateWithoutParentPageInput, PagesUncheckedCreateWithoutParentPageInput>
+  }
+
+  export type PagesUpdateWithWhereUniqueWithoutParentPageInput = {
+    where: PagesWhereUniqueInput
+    data: XOR<PagesUpdateWithoutParentPageInput, PagesUncheckedUpdateWithoutParentPageInput>
+  }
+
+  export type PagesUpdateManyWithWhereWithoutParentPageInput = {
+    where: PagesScalarWhereInput
+    data: XOR<PagesUpdateManyMutationInput, PagesUncheckedUpdateManyWithoutParentPageInput>
+  }
+
+  export type PagesCreateWithoutContentsInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    user: UserCreateNestedOneWithoutPagesInput
+    parentPage?: PagesCreateNestedOneWithoutSubPagesInput
+    subPages?: PagesCreateNestedManyWithoutParentPageInput
+  }
+
+  export type PagesUncheckedCreateWithoutContentsInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    email: string
+    parentPageId?: string | null
+    subPages?: PagesUncheckedCreateNestedManyWithoutParentPageInput
+  }
+
+  export type PagesCreateOrConnectWithoutContentsInput = {
+    where: PagesWhereUniqueInput
+    create: XOR<PagesCreateWithoutContentsInput, PagesUncheckedCreateWithoutContentsInput>
+  }
+
+  export type PagesUpsertWithoutContentsInput = {
+    update: XOR<PagesUpdateWithoutContentsInput, PagesUncheckedUpdateWithoutContentsInput>
+    create: XOR<PagesCreateWithoutContentsInput, PagesUncheckedCreateWithoutContentsInput>
+    where?: PagesWhereInput
+  }
+
+  export type PagesUpdateToOneWithWhereWithoutContentsInput = {
+    where?: PagesWhereInput
+    data: XOR<PagesUpdateWithoutContentsInput, PagesUncheckedUpdateWithoutContentsInput>
+  }
+
+  export type PagesUpdateWithoutContentsInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutPagesNestedInput
+    parentPage?: PagesUpdateOneWithoutSubPagesNestedInput
+    subPages?: PagesUpdateManyWithoutParentPageNestedInput
+  }
+
+  export type PagesUncheckedUpdateWithoutContentsInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    email?: StringFieldUpdateOperationsInput | string
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    subPages?: PagesUncheckedUpdateManyWithoutParentPageNestedInput
+  }
+
   export type PagesCreateManyUserInput = {
     pid?: string
     title: string
-    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     private?: boolean
+    parentPageId?: string | null
   }
 
   export type PagesUpdateWithoutUserInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
+    contents?: ContentsUpdateManyWithoutPageNestedInput
+    parentPage?: PagesUpdateOneWithoutSubPagesNestedInput
+    subPages?: PagesUpdateManyWithoutParentPageNestedInput
   }
 
   export type PagesUncheckedUpdateWithoutUserInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contents?: ContentsUncheckedUpdateManyWithoutPageNestedInput
+    subPages?: PagesUncheckedUpdateManyWithoutParentPageNestedInput
   }
 
   export type PagesUncheckedUpdateManyWithoutUserInput = {
     pid?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     private?: BoolFieldUpdateOperationsInput | boolean
+    parentPageId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ContentsCreateManyPageInput = {
+    cid?: string
+    type: string
+    content: string
+    order: number
+    createdAt?: Date | string
+  }
+
+  export type PagesCreateManyParentPageInput = {
+    pid?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    private?: boolean
+    email: string
+  }
+
+  export type ContentsUpdateWithoutPageInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentsUncheckedUpdateWithoutPageInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentsUncheckedUpdateManyWithoutPageInput = {
+    cid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PagesUpdateWithoutParentPageInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutPagesNestedInput
+    contents?: ContentsUpdateManyWithoutPageNestedInput
+    subPages?: PagesUpdateManyWithoutParentPageNestedInput
+  }
+
+  export type PagesUncheckedUpdateWithoutParentPageInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    email?: StringFieldUpdateOperationsInput | string
+    contents?: ContentsUncheckedUpdateManyWithoutPageNestedInput
+    subPages?: PagesUncheckedUpdateManyWithoutParentPageNestedInput
+  }
+
+  export type PagesUncheckedUpdateManyWithoutParentPageInput = {
+    pid?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    private?: BoolFieldUpdateOperationsInput | boolean
+    email?: StringFieldUpdateOperationsInput | string
   }
 
 

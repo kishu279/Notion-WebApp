@@ -1,11 +1,10 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserData {
   uid: string;
   name: string;
   email: string;
-  logo: string;
+  image: string;
 }
 
 export interface UserDataType {
@@ -35,7 +34,7 @@ export const UserDataSlice = createSlice({
       uid: "",
       name: "",
       email: "",
-      logo: "",
+      image: "",
     },
 
     workspace: [
@@ -62,13 +61,16 @@ export const UserDataSlice = createSlice({
   },
   reducers: {
     setUser: (state, actions: PayloadAction<UserData>) => {
-      state.user = actions.payload;
+      state.user.email = actions.payload.email;
+      state.user.uid = actions.payload.uid;
+      state.user.image = actions.payload.image;
+      state.user.name = actions.payload.name;
+
+      console.log("UserDataSlice: ", state.user);
     },
-    getUser: () => {},
     setPages: () => {},
-    getPages: () => {},
   },
 });
 
-export const { setUser, getUser, setPages, getPages } = UserDataSlice.actions;
+export const { setUser, setPages } = UserDataSlice.actions;
 export default UserDataSlice.reducer;

@@ -1,62 +1,70 @@
 import prisma from "@/config/prisma";
-import { NextRequest } from "next/server";
 
-// Update the Content in those Pages
 export async function POST(req: Request) {
-  const pid = req.url.split("http://localhost:3000/api/content-update?pid=")[1];
-  const { pageContent } = await req.json();
+  const {
+    cid,
+    pid,
+    data,
+  }: {
+    cid?: string;
+    pid: string;
+    data: {
+      content: string;
+      type: string;
+      order: number;
+    };
+  } = await req.json();
 
   try {
-    const response = await prisma.pages.update({
-      where: { pid: pid }, // update should be used with unique field
-      data: { content: pageContent },
-    });
-
-    if (!response) {
+    // check for the pid
+    if (!(await prisma.pages.findUnique({ where: { pid: pid } }))) {
       return new Response(
-        JSON.stringify({ message: "ERR OCCURRED", success: false }),
-        { status: 400 }
-      );
-    }
-
-    return new Response(JSON.stringify({ message: "Updated", success: true }), {
-      status: 200,
-    });
-  } catch (err) {
-    console.error(err);
-    return new Response(JSON.stringify({ message: err, success: false }), {
-      status: 500,
-    });
-  }
-}
-
-export async function GET(req: NextRequest) {
-  // get the pid
-  const searchParams = req.nextUrl.searchParams;
-  const pid = searchParams.get("pid") as string; // page id
-
-  try {
-    const response = await prisma.pages.findUnique({ where: { pid: pid } });
-
-    if (!response) {
-      return Response.json(
+        JSON.stringify({ message: "Page not found", success: false }),
         {
-          message: "No Cotent Found",
-          success: false,
-        },
-        { status: 400 }
+          status: 400,
+        }
       );
     }
 
-    console.log("Response : ", response);
+    // check for the content
+    if (!cid) {
+      // if the content is not present then create a new content
+      const response = await prisma.contents.create({
+        data: {
+          pid: pid,
+          type: data.type,
+          content: data.content,
+          order: data.order,
+        },
+      });
 
-    return Response.json({
-      message: "Content Found",
-      success: true,
-      data: response.content,
+      return new Response(
+        JSON.stringify({
+          message: "Updated Successfully",
+          cid: response.cid,
+          success: true,
+        }),
+        { status: 200 }
+      );
+    }
+
+    // if created then update the content
+    const response = await prisma.contents.update({
+      where: { cid: cid },
+      data: {
+        pid: pid,
+        type: data.type,
+        content: data.content,
+        order: data.order,
+      },
     });
+
+    return new Response(
+      JSON.stringify({ cid: response.cid, message: "Updated", success: true }),
+      { status: 200 }
+    );
   } catch (err) {
-    console.error(err);
-    return Response.json({ message: err, success: false }, { status: 400 });
+    console.error("Error: ", err);
+    return Response.json({ message: "Error", success: false }, { status: 200 });
   }
 }
