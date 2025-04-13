@@ -49,7 +49,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -122,7 +122,7 @@ export default function AppSideBar() {
       console.log("Dispatching the user: ", userDetails);
       dispatch(setUser(userDetails));
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const WorkSpace = {
     workspace: [
@@ -141,11 +141,11 @@ export default function AppSideBar() {
   };
 
   // fetch the data
-  async function getData() {
+  const getData = useCallback(async () => {
     if (!user) {
       return;
     }
-    
+
     try {
       const response = await axios.post(
         "/api/pages-created",
@@ -165,12 +165,12 @@ export default function AppSideBar() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [user]);
 
   useEffect(() => {
     setLoading(true);
     getData();
-  }, [user]);
+  }, [user, getData]);
 
   if (loading) {
     return <MySideBarSkeleton />;
@@ -387,7 +387,7 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
       // router.push("/notion");
 
       // Changes in the main data stored
-      // refreshFunction();
+      refreshFunction();
     } catch (err) {
       toast(err.response.data.message || "ERRROR");
     } finally {

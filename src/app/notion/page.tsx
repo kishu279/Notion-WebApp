@@ -1,24 +1,16 @@
 import NotionDynamicPage from "@/pages/DynamicPage";
 import NotionAdverPage from "@/pages/NotionAdverPage";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const { pid } = await searchParams;
+interface PageProps {
+  searchParams?: Record<string, string | string[] | undefined>;
+}
+
+export default function Page({ searchParams }: PageProps) {
+  const pid = searchParams?.pid;
 
   if (!pid) {
-    return (
-      <>
-        <NotionAdverPage />
-      </>
-    );
+    return <NotionAdverPage />;
   }
 
-  return (
-    <>
-      <NotionDynamicPage pid={pid} />
-    </>
-  );
+  return <NotionDynamicPage pid={pid as string} />;
 }
