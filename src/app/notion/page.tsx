@@ -2,11 +2,11 @@ import NotionDynamicPage from "@/pages/DynamicPage";
 import NotionAdverPage from "@/pages/NotionAdverPage";
 
 interface PageProps {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams: Promise< {pid:string}> ;
 }
 
-export default function Page({ searchParams }: PageProps) {
-  const pid = searchParams?.pid;
+export default async  function Page({ searchParams }: PageProps) {
+  const pid =  (await (searchParams)).pid
 
   if (!pid) {
     return <NotionAdverPage />;
