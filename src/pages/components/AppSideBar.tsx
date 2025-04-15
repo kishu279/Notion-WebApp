@@ -72,7 +72,13 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { setUser, UserData } from "@/store/features/UserDataSlice";
+import {
+  PagesTypes,
+  setContents,
+  setPages,
+  setUser,
+  UserTypes,
+} from "@/store/features/UserDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 
 // SideBar Component
@@ -108,22 +114,6 @@ export default function AppSideBar() {
     ],
   };
 
-  // Dispatch the User Details properly
-  useEffect(() => {
-    // Getting the User Details
-    const userDetails: UserData = {
-      uid: user?.id || "",
-      name: user?.fullName || "",
-      email: user?.emailAddresses[0]?.emailAddress || "",
-      image: user?.imageUrl || "",
-    };
-
-    if (user?.id != null) {
-      console.log("Dispatching the user: ", userDetails);
-      dispatch(setUser(userDetails));
-    }
-  }, [user]);
-
   const WorkSpace = {
     workspace: [
       {
@@ -140,12 +130,27 @@ export default function AppSideBar() {
     ],
   };
 
+  // Dispatch the User Details properly
+  useEffect(() => {
+    // Getting the User Details
+    const userDetails: UserTypes = {
+      uid: user?.id || "",
+      name: user?.fullName || "",
+      email: user?.emailAddresses[0]?.emailAddress || "",
+      image: user?.imageUrl || "",
+    };
+
+    if (user?.id != null) {
+      dispatch(setUser(userDetails));
+    }
+  }, [user]);
+
   // fetch the data
   async function getData() {
     if (!user) {
       return;
     }
-    
+
     try {
       const response = await axios.post(
         "/api/pages-created",
@@ -160,6 +165,9 @@ export default function AppSideBar() {
       // const fetchData = response.data.response;
       // userData.setPrivateField(data);
       console.log(response);
+
+      dispatch(setPages(response.data.data.pages));
+      dispatch(setContents(response.data.data.contents));
     } catch (err) {
       console.error(err);
     } finally {
@@ -189,7 +197,7 @@ export default function AppSideBar() {
         {!pages ? (
           <div className="p-4 text-gray-600">Loading...</div>
         ) : (
-          <Pages items={pages.items} refreshFunction={getData} />
+          <Pages refreshFunction={getData} />
         )}
       </SidebarContent>
       <SidebarFooter>
@@ -201,15 +209,16 @@ export default function AppSideBar() {
 }
 
 // Sidebar Pages Section
-function Pages({
-  items,
-  refreshFunction,
-}: {
-  items: { name: string; items: { title: string; url: string }[] }[];
-  refreshFunction: () => void;
-}) {
+function Pages({ refreshFunction }: { refreshFunction: () => void }) {
   // selected Pid
   const [selectPid, setSelectPid] = useState<string>("");
+  const [pagesDetails, setPagesDetails] = useState<PagesTypes[]>([]);
+  const data = useAppSelector((state) => state.userData.pages);
+
+  useEffect(() => {
+    setPagesDetails(data);
+    console.log(data);
+  }, []);
 
   return (
     <>
@@ -242,6 +251,31 @@ function Pages({
                 <CollapsibleContent>
                   <ContextMenuTrigger>
                     <SidebarMenuSub>
+                      {pagesDetails.length != 0 &&
+                        pagesDetails.map(
+                          (item) =>
+                            !item.private && (
+                              <SidebarMenuSubItem
+                                key={item.pid}
+                                onMouseDown={() => {
+                                  setSelectPid(item.pid);
+                                }}
+                              >
+                                <SidebarMenuSubButton asChild>
+                                  <Link href={`/notion?pid=${item.pid}`}>
+                                    <span className="overflow-hidden text-ellipsis">
+                                      {item.title}
+                                    </span>
+                                  </Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )
+                        )}
+                    </SidebarMenuSub>
+
+                    {/* Old Techniques */}
+
+                    {/* <SidebarMenuSub>
                       {items[1].items?.map((subItem) => (
                         <SidebarMenuSubItem
                           key={subItem.url}
@@ -258,7 +292,7 @@ function Pages({
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
-                    </SidebarMenuSub>
+                    </SidebarMenuSub> */}
                   </ContextMenuTrigger>
                 </CollapsibleContent>
               </SidebarMenuItem>
@@ -291,22 +325,21 @@ function Pages({
                 <CollapsibleContent>
                   <ContextMenuTrigger>
                     <SidebarMenuSub>
-                      {items[0].items?.map((subItem) => (
-                        <SidebarMenuSubItem
-                          key={subItem.url}
-                          onMouseDown={() => {
-                            setSelectPid(subItem.url);
-                          }}
-                        >
-                          <SidebarMenuSubButton asChild>
-                            <Link href={`/notion?pid=${subItem.url}`}>
-                              <span className="overflow-hidden text-ellipsis">
-                                {subItem.title}
-                              </span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
+                      {pagesDetails.length != 0 &&
+                        pagesDetails.map(
+                          (item) =>
+                            item.private && (
+                              <SidebarMenuSubItem key={item.pid}>
+                                <SidebarMenuSubButton asChild>
+                                  <Link href={`/notion?pid=${item.pid}`}>
+                                    <span className="overflow-hidden text-ellipsis">
+                                      {item.title}
+                                    </span>
+                                  </Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            )
+                        )}
                     </SidebarMenuSub>
                   </ContextMenuTrigger>
                 </CollapsibleContent>

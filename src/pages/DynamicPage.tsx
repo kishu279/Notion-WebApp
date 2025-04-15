@@ -2,7 +2,6 @@
 
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 

@@ -1,6 +1,21 @@
 import prisma from "@/config/prisma";
 import { NextRequest } from "next/server";
 
+interface pagesDataTypes {
+  pid: string;
+  ppid?: string | null;
+  private: boolean;
+  title: string;
+}
+
+interface pagesContentdTypes {
+  pid: string;
+  cid: string;
+  type: string;
+  content: string;
+  order: number;
+}
+
 export async function POST(req: NextRequest) {
   const { email }: { email: string } = await req.json();
 
@@ -33,20 +48,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const pagesData: {
-      pid: string;
-      ppid: string | null;
-      private: boolean;
-      title: string;
-    }[] = [];
-
-    const UserPagesContents: {
-      pid: string;
-      cid: string;
-      type: string;
-      content: string;
-      order: number;
-    }[] = [];
+    const pagesData: pagesDataTypes[] = [];
+    const pagesContents: pagesContentdTypes[] = [];
 
     for (const page of UserPages) {
       // arrange and store the data
@@ -64,7 +67,7 @@ export async function POST(req: NextRequest) {
 
       // arrange the contents
       contents.forEach((content) => {
-        UserPagesContents.push({
+        pagesContents.push({
           pid: page.pid,
           cid: content.cid,
           type: content.type,
@@ -76,11 +79,11 @@ export async function POST(req: NextRequest) {
 
     return new Response(
       JSON.stringify({
-        message: "Pages",
+        message: "Pages + Contents",
         data: {
           // workspace
           pages: pagesData,
-          contents: UserPagesContents,
+          contents: pagesContents,
         },
         success: true,
       }),
