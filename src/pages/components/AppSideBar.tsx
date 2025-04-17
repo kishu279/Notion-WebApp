@@ -162,8 +162,6 @@ export default function AppSideBar() {
         }
       );
 
-      // const fetchData = response.data.response;
-      // userData.setPrivateField(data);
       console.log(response);
 
       dispatch(setPages(response.data.data.pages));
@@ -180,6 +178,10 @@ export default function AppSideBar() {
     getData();
   }, [user]);
 
+  // async function pushPage(page: {title: string}) {
+
+  // }
+
   if (loading) {
     return <MySideBarSkeleton />;
   }
@@ -195,8 +197,9 @@ export default function AppSideBar() {
       </SidebarHeader>
       <SidebarContent className="flex-grow overflow-y-auto">
         {!pages ? (
-          <div className="p-4 text-gray-600">Loading...</div>
+          <div className=""></div>
         ) : (
+          // <div className="p-4 text-gray-600">Loading...</div>
           <Pages refreshFunction={getData} />
         )}
       </SidebarContent>
@@ -385,23 +388,15 @@ function Pages({ refreshFunction }: { refreshFunction: () => void }) {
 
 // Create New Page Alert Dialog
 function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
-  // storing the page title
   const [pageName, setPageName] = useState<string>("");
-  // storing the email
   const reduxUser = useAppSelector((state) => state.userData.user);
 
-  // nested pages ppid for now we are not sending
-  // const ppid
-
   async function handleSubmit() {
-    console.log("clicked");
-
     if (pageName.length === 0) {
       console.error("Input field should not be empty");
       return;
     }
 
-    // send the request to the backend
     try {
       const response = await axios.post("/api/create", {
         title: pageName,
@@ -422,7 +417,7 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
       // Changes in the main data stored
       // refreshFunction();
     } catch (err) {
-      toast(err.response.data.message || "ERRROR");
+      toast(err?.response.data.message || "ERRROR");
     } finally {
       setPageName("");
     }

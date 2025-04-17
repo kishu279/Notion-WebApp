@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LucideProps } from "lucide-react";
-import { pid } from "process";
-import React from "react";
+import {
+  createSlice,
+  PayloadAction,
+  PayloadActionCreator,
+} from "@reduxjs/toolkit";
+import { title } from "process";
 
 export interface UserTypes {
   uid: string;
@@ -109,6 +111,29 @@ export const UserDataSlice = createSlice({
           order: data.order,
         })
       );
+    },
+    setNewPage: (
+      state,
+      actions: PayloadAction<{ title: string; private: boolean }>
+    ) => {
+      state.pages.push({
+        pid: "",
+        title: actions.payload.title,
+        ppid: "",
+        private: actions.payload.private,
+      });
+    },
+
+    setUpdatePage: (state, actions: PayloadAction<PagesTypes>) => {
+      // updat of the existing data
+      state.pages.map((page) => {
+        if (page.pid === null && page.title === actions.payload.title) {
+          page.pid = actions.payload.pid;
+          page.ppid = actions.payload.ppid;
+          page.title = actions.payload.title;
+          page.private = actions.payload.private;
+        }
+      });
     },
   },
 });
