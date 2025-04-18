@@ -127,7 +127,11 @@ export const UserDataSlice = createSlice({
     setUpdatePage: (state, actions: PayloadAction<PagesTypes>) => {
       // updat of the existing data
       state.pages.map((page) => {
-        if (page.pid === null && page.title === actions.payload.title) {
+        if (
+          page.pid === "" &&
+          (page.title === actions.payload.title ||
+            page.pid === actions.payload.pid)
+        ) {
           page.pid = actions.payload.pid;
           page.ppid = actions.payload.ppid;
           page.title = actions.payload.title;
@@ -138,5 +142,6 @@ export const UserDataSlice = createSlice({
   },
 });
 
-export const { setUser, setPages, setContents } = UserDataSlice.actions;
+export const { setUser, setPages, setContents, setNewPage, setUpdatePage } =
+  UserDataSlice.actions;
 export default UserDataSlice.reducer;

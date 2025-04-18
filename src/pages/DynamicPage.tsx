@@ -25,7 +25,7 @@ export default function NotionDynamicPage({ pid }: { pid: string }) {
       const response = await axios.post(
         "/api/content-update",
         {
-          cid: "ee675ec9-dcf6-4c4f-83f4-40ac3bf47f13",
+          cid: null,
           pid: pid,
           data: { content: fetchData, type: "text", order: 0 },
         },

@@ -75,7 +75,9 @@ import {
 import {
   PagesTypes,
   setContents,
+  setNewPage,
   setPages,
+  setUpdatePage,
   setUser,
   UserTypes,
 } from "@/store/features/UserDataSlice";
@@ -178,10 +180,6 @@ export default function AppSideBar() {
     getData();
   }, [user]);
 
-  // async function pushPage(page: {title: string}) {
-
-  // }
-
   if (loading) {
     return <MySideBarSkeleton />;
   }
@@ -200,7 +198,7 @@ export default function AppSideBar() {
           <div className=""></div>
         ) : (
           // <div className="p-4 text-gray-600">Loading...</div>
-          <Pages refreshFunction={getData} />
+          <Pages />
         )}
       </SidebarContent>
       <SidebarFooter>
@@ -212,16 +210,21 @@ export default function AppSideBar() {
 }
 
 // Sidebar Pages Section
-function Pages({ refreshFunction }: { refreshFunction: () => void }) {
+function Pages() {
   // selected Pid
   const [selectPid, setSelectPid] = useState<string>("");
   const [pagesDetails, setPagesDetails] = useState<PagesTypes[]>([]);
   const data = useAppSelector((state) => state.userData.pages);
 
-  useEffect(() => {
+  function setPagesData() {
     setPagesDetails(data);
     console.log(data);
-  }, []);
+  }
+
+  useEffect(() => {
+    setPagesData();
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -275,27 +278,6 @@ function Pages({ refreshFunction }: { refreshFunction: () => void }) {
                             )
                         )}
                     </SidebarMenuSub>
-
-                    {/* Old Techniques */}
-
-                    {/* <SidebarMenuSub>
-                      {items[1].items?.map((subItem) => (
-                        <SidebarMenuSubItem
-                          key={subItem.url}
-                          onMouseDown={() => {
-                            setSelectPid(subItem.url);
-                          }}
-                        >
-                          <SidebarMenuSubButton asChild>
-                            <Link href={`/notion?pid=${subItem.url}`}>
-                              <span className="overflow-hidden text-ellipsis">
-                                {subItem.title}
-                              </span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub> */}
                   </ContextMenuTrigger>
                 </CollapsibleContent>
               </SidebarMenuItem>
@@ -320,7 +302,7 @@ function Pages({ refreshFunction }: { refreshFunction: () => void }) {
                     </p>
                     {/* create pages */}
                     <div className="flex items-center gap-3">
-                      <AlertDialogDemo refreshFunction={refreshFunction} />
+                      <AlertDialogDemo refreshFunction={setPagesData} />
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 " />
                     </div>
                   </SidebarMenuButton>
@@ -390,12 +372,16 @@ function Pages({ refreshFunction }: { refreshFunction: () => void }) {
 function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
   const [pageName, setPageName] = useState<string>("");
   const reduxUser = useAppSelector((state) => state.userData.user);
+  const dispatch = useAppDispatch();
 
   async function handleSubmit() {
     if (pageName.length === 0) {
       console.error("Input field should not be empty");
       return;
     }
+
+    dispatch(setNewPage({ title: pageName, private: true }));
+    refreshFunction();
 
     try {
       const response = await axios.post("/api/create", {
@@ -415,9 +401,17 @@ function AlertDialogDemo({ refreshFunction }: { refreshFunction: () => void }) {
       // router.push("/notion");
 
       // Changes in the main data stored
-      // refreshFunction();
+      dispatch(
+        setUpdatePage({
+          title: pageName,
+          pid: response.data.pid,
+          ppid: "MY PAGE",
+          private: true,
+        })
+      );
+      refreshFunction();
     } catch (err) {
-      toast(err?.response.data.message || "ERRROR");
+      toast(err.response.data.message || "ERRROR");
     } finally {
       setPageName("");
     }
